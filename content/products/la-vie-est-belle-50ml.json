@@ -1,0 +1,20 @@
+{
+  "id": "la-vie-est-belle-50ml",
+  "slug": "la-vie-est-belle-50ml",
+  "name": "La Vie Est Belle",
+  "brand": "Lancôme",
+  "price": 449.90,
+  "ml": 50,
+  "gender": "feminino",
+  "family": "Floral Oriental",
+  "notes_top": ["Pera", "Cassis", "Bergamota"],
+  "notes_heart": ["Flor de laranja", "Jasmim Sambac", "Iris"],
+  "notes_base": ["Praline", "Baunilha Madagascar", "Almíscar"],
+  "description": "La Vie Est Belle é a essência da beleza, felicidade e sensualidade. Seu aroma precioso e generoso mistura notas florais delicadas com doces especiarias. Um perfume para mulheres que celebram a vida e seus prazeres.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.9,
+  "rating_count": 456,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": true
+}

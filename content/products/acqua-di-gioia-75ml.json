@@ -1,0 +1,20 @@
+{
+  "id": "acqua-di-gioia-75ml",
+  "slug": "acqua-di-gioia-75ml",
+  "name": "Acqua di Gioia",
+  "brand": "Giorgio Armani",
+  "price": 349.90,
+  "ml": 75,
+  "gender": "unissex",
+  "family": "Aquático Aromático",
+  "notes_top": ["Menta", "Limão siciliano", "Eucalipto"],
+  "notes_heart": ["Sálvia", "Menta de água", "Alga marinha"],
+  "notes_base": ["Âmbar branco", "Musgo", "Sandálwood"],
+  "description": "Acqua di Gioia captura a essência da água fresca e pura. Um perfume aquático refrescante que evoca a tranquilidade do mar Mediterrâneo. Ideal para quem busca frescor e serenidade.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.6,
+  "rating_count": 512,
+  "in_stock_label": "Em estoque",
+  "featured": false,
+  "best_seller": false
+}

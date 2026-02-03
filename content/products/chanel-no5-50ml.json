@@ -1,0 +1,20 @@
+{
+  "id": "chanel-no5-50ml",
+  "slug": "chanel-no5-50ml",
+  "name": "Chanel No. 5",
+  "brand": "Chanel",
+  "price": 599.90,
+  "ml": 50,
+  "gender": "feminino",
+  "family": "Floral Aldeidado",
+  "notes_top": ["Bergamota", "Limão", "Neroli"],
+  "notes_heart": ["Jasmim", "Rosa", "Ylang Ylang"],
+  "notes_base": ["Almíscar", "Sândalo", "Âmbar cinzento"],
+  "description": "Um clássico eterno. Chanel No. 5 é um ícone da perfumaria mundial, criado em 1921. Sua composição sofisticada combina flores nobres com aldeídos, criando uma fragrância intemporal e elegantíssima.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.7,
+  "rating_count": 789,
+  "in_stock_label": "Em estoque",
+  "featured": false,
+  "best_seller": true
+}

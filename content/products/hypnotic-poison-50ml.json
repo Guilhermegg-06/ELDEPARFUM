@@ -1,0 +1,20 @@
+{
+  "id": "hypnotic-poison-50ml",
+  "slug": "hypnotic-poison-50ml",
+  "name": "Hypnotic Poison",
+  "brand": "Dior",
+  "price": 379.90,
+  "ml": 50,
+  "gender": "feminino",
+  "family": "Floral Amadeirado",
+  "notes_top": ["Anis", "Canela", "Noz-moscada"],
+  "notes_heart": ["Tuberosa", "Lírio do vale", "Orquídea"],
+  "notes_base": ["Sândalo", "Âmbar", "Musgo de carvalho"],
+  "description": "Hypnotic Poison é uma fragrância hipnotizante para mulheres. Doce, quente e sensual, combina especiarias orientais com flores exóticas. Uma fragrância para noites memoráveis e momentos apaixonantes.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.7,
+  "rating_count": 401,
+  "in_stock_label": "Em estoque",
+  "featured": false,
+  "best_seller": false
+}

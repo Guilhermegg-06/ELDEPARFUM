@@ -1,0 +1,20 @@
+{
+  "id": "dior-sauvage-100ml",
+  "slug": "dior-sauvage-100ml",
+  "name": "Dior Sauvage",
+  "brand": "Dior",
+  "price": 449.90,
+  "ml": 100,
+  "gender": "masculino",
+  "family": "Aroamático Especiado",
+  "notes_top": ["Bergamota", "Ameixa"],
+  "notes_heart": ["Pimenta de Sichuan", "Ambroxano"],
+  "notes_base": ["Cedro", "Âmbar", "Almíscar branco"],
+  "description": "Dior Sauvage é um perfume clássico moderno para homens. Com bergamota luminosa no topo e pimenta quentinha no coração, seguido de base amadeirada seca. Um dos perfumes masculinos mais vendidos do mundo.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.7,
+  "rating_count": 892,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": true
+}

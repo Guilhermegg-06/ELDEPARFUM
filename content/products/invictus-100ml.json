@@ -1,0 +1,20 @@
+{
+  "id": "invictus-100ml",
+  "slug": "invictus-100ml",
+  "name": "Invictus",
+  "brand": "Paco Rabanne",
+  "price": 399.90,
+  "ml": 100,
+  "gender": "masculino",
+  "family": "Amadeirado Aquático",
+  "notes_top": ["Toranja", "Mandarina", "Notas marinhas"],
+  "notes_heart": ["Jasmim", "Folhas de louro"],
+  "notes_base": ["Âmbar cinzento", "Guaiaco", "Musgo de carvalho"],
+  "description": "Invictus é um perfume para homens que celebra a vitória e o sucesso. Com notas frescas marinhas no topo, coração floral sofisticado e base amadeirada quente, é ideal para o homem moderno que quer fazer uma declaração poderosa.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.8,
+  "rating_count": 234,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": true
+}

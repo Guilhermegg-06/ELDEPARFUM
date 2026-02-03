@@ -1,0 +1,20 @@
+{
+  "id": "miss-dior-50ml",
+  "slug": "miss-dior-50ml",
+  "name": "Miss Dior",
+  "brand": "Dior",
+  "price": 399.90,
+  "ml": 50,
+  "gender": "feminino",
+  "family": "Floral Frutado",
+  "notes_top": ["Grapefruit", "Ameixa", "Bergamota"],
+  "notes_heart": ["Rosa Damasco", "Jasmim Grandiflorum", "Violeta"],
+  "notes_base": ["Cedro", "Almíscar", "Musgo de carvalho"],
+  "description": "Miss Dior é a criação legendária de Christian Dior. Delicado, floral e frutal, é um perfume que expressa feminilidade clássica com toque moderno. Perfeito para mulheres sofisticadas e elegantes.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.8,
+  "rating_count": 623,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": false
+}

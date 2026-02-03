@@ -1,0 +1,20 @@
+{
+  "id": "bleu-de-chanel-100ml",
+  "slug": "bleu-de-chanel-100ml",
+  "name": "Bleu de Chanel",
+  "brand": "Chanel",
+  "price": 499.90,
+  "ml": 100,
+  "gender": "masculino",
+  "family": "Ambroxano Aromático",
+  "notes_top": ["Limão", "Menta", "Gengibre"],
+  "notes_heart": ["Cimol", "Gerânio", "Âmbar cinzento"],
+  "notes_base": ["Sândalo", "Almíscar", "Ambroxano"],
+  "description": "Bleu de Chanel é um perfume moderno e atemporal para homens. Combina frescor aromático com sofisticação amadeirada. Perfeito para o executivo que quer elegância e distinção no dia a dia.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.8,
+  "rating_count": 567,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": true
+}

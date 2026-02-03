@@ -1,0 +1,20 @@
+{
+  "id": "creed-aventus-100ml",
+  "slug": "creed-aventus-100ml",
+  "name": "Aventus",
+  "brand": "Creed",
+  "price": 1299.90,
+  "ml": 100,
+  "gender": "unissex",
+  "family": "Frutal Amadeirado",
+  "notes_top": ["Abacaxi", "Melão cantaloupe", "Gengibre"],
+  "notes_heart": ["Pêlo de almíscar", "Almíscar rosa"],
+  "notes_base": ["Âmbar cinzento", "Carvalho envelhecido", "Cedro do Himalaia"],
+  "description": "Aventus é um perfume de prestígio criado pela perfumista Olivier Creed. Uma fragrância frutal e amadeirada que evoca força e vitória. Notas frutais frescas com uma base seca e nobre.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.9,
+  "rating_count": 345,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": false
+}

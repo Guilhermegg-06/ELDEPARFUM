@@ -1,0 +1,20 @@
+{
+  "id": "eros-100ml",
+  "slug": "eros-100ml",
+  "name": "Eros",
+  "brand": "Versace",
+  "price": 429.90,
+  "ml": 100,
+  "gender": "masculino",
+  "family": "Orientado Aromático",
+  "notes_top": ["Hortelã", "Ameixa", "Maçã"],
+  "notes_heart": ["Orquídea verde", "Almíscar rose", "Noz de Tonka"],
+  "notes_base": ["Vanilla", "Cedro", "Almíscar branco"],
+  "description": "Eros é a fragrância do deus grego do amor. Vibrante, sensual e envolvente, é um perfume que seduz e atrai. Perfeito para homens que desejam transmitir poder e magnetismo.",
+  "images": ["/products/placeholder-1.jpg", "/products/placeholder-2.jpg"],
+  "rating_avg": 4.8,
+  "rating_count": 678,
+  "in_stock_label": "Em estoque",
+  "featured": true,
+  "best_seller": true
+}
