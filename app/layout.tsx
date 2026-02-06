@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "ELDEPARFUM - Vitrine de Perfumes Premium",
   description: "Descubra fragrâncias luxuosas e exclusivas. Catálogo de perfumes premium para você.",
   keywords: "perfume, fragrância, premium, luxo, unissex, masculino, feminino",
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     title: "ELDEPARFUM - Vitrine de Perfumes Premium",
     description: "Descubra fragrâncias luxuosas e exclusivas.",

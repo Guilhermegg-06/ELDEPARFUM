@@ -193,6 +193,8 @@ export default function CarrinhoPage() {
                             onChange={(qty) => handleQtyChange(item.slug, qty)}
                           />
                           <button
+                            type="button"
+                            aria-label="Remove product"
                             onClick={() => handleRemove(item.slug)}
                             className="p-2 text-red-600 hover:bg-red-50 rounded transition"
                           >

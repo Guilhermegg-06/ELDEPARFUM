@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">ELDEPARFUM</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              A sua vitrine de perfumes premium. Descubra fragrâncias luxuosas e exclusivas para expressar sua personalidade.
+              A sua vitrine de contratipos de perfumes  premium. Descubra fragrâncias luxuosas e exclusivas para expressar sua personalidade.
             </p>
           </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-gray-400 hover:text-white transition cursor-pointer">
                 <Phone className="w-4 h-4" />
-                <span>+55 11 99999-9999</span>
+                <span>55 82 9147-9637</span>
               </li>
               <li className="flex items-center gap-2 text-gray-400 hover:text-white transition cursor-pointer">
                 <Mail className="w-4 h-4" />
@@ -58,7 +58,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-gray-400">
                 <MapPin className="w-4 h-4" />
-                <span>São Paulo, SP</span>
+                <span>Macéio - AL</span>
               </li>
             </ul>
           </div>

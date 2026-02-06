@@ -65,12 +65,12 @@ export default function SobrePage() {
               {
                 icon: Heart,
                 title: 'Paixão',
-                description: 'Amamos perfumes e compartilhamos essa paixão com cada cliente.',
+                description: 'Amamos perfumes e compartilhamos essa paixão com cada cliente por meio dos nossos contratipos, cuidados e atenção.',
               },
               {
                 icon: Target,
                 title: 'Qualidade',
-                description: 'Selecionamos apenas as melhores fragrâncias do mercado.',
+                description: 'Selecionamos apenas as melhores fragrâncias contratipos do mercado.',
               },
               {
                 icon: Zap,
@@ -126,8 +126,8 @@ export default function SobrePage() {
                 a: 'Sim! Temos política de devolução de 7 dias se o produto chegar com defeito. Consulte nossa equipe no WhatsApp.',
               },
               {
-                q: 'Os produtos são originais?',
-                a: 'Garantimos 100% de originalidade em todos os perfumes. Todos vêm com certificado de autenticidade.',
+                q: 'Perfumes contratipos. Como eles funcionam?',
+                a: 'A marca do contratipo cria uma fórmula própria para ficar parecida com o perfume de referência. Normalmente usam fragrâncias/aromas (óleos aromáticos) + álcool + fixadores, em concentrações tipo EDT/EDP. O objetivo é entregar um cheiro semelhante por um preço bem menor.',
               },
             ].map((faq, idx) => (
               <motion.div
