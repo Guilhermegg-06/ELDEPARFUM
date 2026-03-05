@@ -1,6 +1,8 @@
 # ELDEPARFUM - Vitrine de Perfumes Premium
 
-Uma plataforma elegante, moderna e responsiva para catálogo de perfumes premium, construída com Next.js, TypeScript, Tailwind CSS e Framer Motion.
+Uma plataforma elegante, moderna e responsiva para catálogo de perfumes premium, construída com Next.js (App Router), TypeScript, Tailwind CSS e Framer Motion.
+
+> **Nota:** A partir da fase 2 o site integra com Supabase para armazenamento de produtos, autenticação de administradores e upload de imagens.
 
 ## 🎯 Visão Geral
 
@@ -16,6 +18,29 @@ ELDEPARFUM é uma vitrine de e-commerce sem banco de dados (Fase 1) que oferece:
 - 🔍 Filtros e busca no catálogo
 
 ## 🚀 Como Rodar Localmente
+
+## Variáveis de ambiente
+A seguir estão as variáveis que podem ser definidas em `.env.local` (copie de `.env.example`):
+
+```env
+# dados do whatsapp (continua sendo usado para checkout)
+NEXT_PUBLIC_WHATSAPP_PHONE=55XXXXXXXXXXX
+
+# Supabase (caso queira usar o BD ao invés do mock de JSON)
+NEXT_PUBLIC_SUPABASE_URL=\
+NEXT_PUBLIC_SUPABASE_ANON_KEY=\
+SUPABASE_SERVICE_ROLE_KEY=\
+
+# Lista de e‑mails autorizados a acessar o painel admin
+ADMIN_EMAILS=admin1@example.com,admin2@example.com
+
+# Ativa botão de login com Apple (opcional)
+NEXT_PUBLIC_ENABLE_APPLE_AUTH=true
+```
+
+As chaves do Supabase são obtidas no dashboard do seu projeto. A `SERVICE_ROLE_KEY` **não deve** ser colocada em um cliente público, por isso apenas usos no servidor (API) devem acessá‑la.
+
+Continuando com os passos de instalação:
 
 ### Pré-requisitos
 
@@ -163,6 +188,31 @@ NEXT_PUBLIC_WHATSAPP_PHONE=5511987654321
 ### Customizar Mensagem
 
 Edite `lib/whatsapp.ts` na função `generateWhatsAppMessage()` para personalizar o texto.
+
+---
+
+## ⚙️ Configuração do Supabase (fase 2)
+
+Para começar a usar o banco de dados e o painel admin, siga estes passos:
+
+1. Crie um projeto em https://supabase.com e copie as variáveis de ambiente para o `.env.local` do repositório.
+2. No **SQL Editor** execute o script `docs/supabase_schema.sql` para criar as tabelas e trigger.
+3. Na seção **Authentication → Providers** habilite Google (e Apple se desejar).
+   - Quando habilitar Apple, defina `NEXT_PUBLIC_ENABLE_APPLE_AUTH=true` em .env.local.
+4. Crie o bucket `product-images` em **Storage → Buckets** e marque como público.
+6. (Importante) desabilite Row Level Security nas tabelas `products` e `product_images` ou configure políticas que permitam que o *anon key* realize operações de leitura e escrita. O painel admin atual usa o **anon** client para CRUD; se preferir você pode trocar para usar APIs server-side com a service role key.
+7. Popule a variável `ADMIN_EMAILS` com os e‑mails de quem poderá acessar `/admin`.
+8. Reinicie o servidor (`npm run dev`).
+
+Depois disso o site público irá ler produtos do Supabase e o painel em `/admin` ficará disponível para administradores autorizados.
+
+### Usando o painel
+- Abra `https://<seu-site>/admin`.
+- Se não estiver autenticado, você será redirecionado para `/admin/login`.
+- Entre com Google (ou Apple, se habilitado) usando um e‑mail presente em `ADMIN_EMAILS`.
+- Ao entrar você verá a lista de produtos e poderá criar/editar/excluir.
+
+> Nota: há também uma rota pública `/login` pensada para clientes finais. Ela apenas inicia o fluxo de OAuth (sem restrições) e retorna à home; o carrinho permanece via WhatsApp.
 
 ## 🎨 Customizar Design
 

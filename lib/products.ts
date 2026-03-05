@@ -2,9 +2,57 @@ import { Product, Filter } from './types';
 import fs from 'fs';
 import path from 'path';
 
+// supabase server client is only used on the server side (API routes)
+import { supabaseServer } from './supabaseServer';
+
 const PRODUCTS_DIR = path.join(process.cwd(), 'content', 'products');
 
 export async function getAllProducts(): Promise<Product[]> {
+  // if Supabase is configured, fetch from database instead of filesystem
+  if (
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.SUPABASE_SERVICE_ROLE_KEY &&
+    supabaseServer
+  ) {
+    try {
+      const { data, error } = await supabaseServer
+        .from('products')
+        .select(`*, product_images(url)`) // join images
+        .eq('active', true);
+
+      if (error) {
+        console.error('Supabase error fetching products:', error);
+        // fall back to filesystem below
+      } else if (data) {
+        // map product_images to images array
+        const products: Product[] = (data as any[]).map((p) => ({
+          id: p.id,
+          slug: p.slug,
+          name: p.name,
+          brand: p.brand,
+          price: Number(p.price),
+          ml: p.ml,
+          gender: p.gender,
+          family: p.family,
+          notes_top: p.notes_top || [],
+          notes_heart: p.notes_heart || [],
+          notes_base: p.notes_base || [],
+          description: p.description || '',
+          images: (p.product_images || []).map((img: any) => img.url),
+          rating_avg: p.rating_avg || 0,
+          rating_count: p.rating_count || 0,
+          in_stock_label: p.in_stock_label || '',
+          featured: p.featured || false,
+          best_seller: p.best_seller || false,
+        }));
+        return products;
+      }
+    } catch (err) {
+      console.error('Error querying supabase for products:', err);
+    }
+  }
+
+  // fallback to filesystem-based mock
   try {
     const files = fs.readdirSync(PRODUCTS_DIR).filter((file) => file.endsWith('.json'));
     const products: Product[] = [];
@@ -28,6 +76,55 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  // Supabase branch
+  if (
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.SUPABASE_SERVICE_ROLE_KEY &&
+    supabaseServer
+  ) {
+    try {
+      const { data, error } = await supabaseServer
+        .from('products')
+        .select(`*, product_images(url)`) // include images
+        .eq('slug', slug)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // no rows found
+          return null;
+        }
+        console.error('Supabase error fetching product by slug:', error);
+      } else if (data) {
+        const product: Product = {
+          id: data.id,
+          slug: data.slug,
+          name: data.name,
+          brand: data.brand,
+          price: Number(data.price),
+          ml: data.ml,
+          gender: data.gender,
+          family: data.family,
+          notes_top: data.notes_top || [],
+          notes_heart: data.notes_heart || [],
+          notes_base: data.notes_base || [],
+          description: data.description || '',
+          images: (data.product_images || []).map((img: any) => img.url),
+          rating_avg: data.rating_avg || 0,
+          rating_count: data.rating_count || 0,
+          in_stock_label: data.in_stock_label || '',
+          featured: data.featured || false,
+          best_seller: data.best_seller || false,
+        };
+        return product;
+      }
+    } catch (err) {
+      console.error('Error querying supabase for product by slug:', err);
+    }
+    return null;
+  }
+
+  // fallback to filesystem-based mock
   try {
     // Try exact filename first
     const filePath = path.join(PRODUCTS_DIR, `${slug}.json`);

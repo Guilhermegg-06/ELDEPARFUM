@@ -34,6 +34,7 @@ O projeto ELDEPARFUM foi completamente inicializado com todos os componentes, p�
 - [x] GET /api/products?slug=X - Detalhe por slug
 - [x] GET /api/products?filters=true - Filters derivados
 - [x] Suporte a query params: q, brand, family, minPrice, maxPrice, sort
+- [x] Integração opcional com Supabase (muda fonte de dados se variável de ambiente presente)
 
 #### Funcionalidades
 - [x] Carrinho com localStorage
@@ -45,11 +46,15 @@ O projeto ELDEPARFUM foi completamente inicializado com todos os componentes, p�
 - [x] Busca por texto
 - [x] Ordenação (preço, destaque, mais vendido)
 
-#### Admin (Decap CMS)
-- [x] /admin com index.html
+#### Admin (Decap CMS + Painel próprio)
+- [x] /admin com index.html (DecapCMS)
 - [x] config.yml configurado
 - [x] Campos para CRUD de produtos
 - [x] Suporte a Git-based CMS
+- [x] Painel custom em `/admin` com CRUD conectado ao Supabase
+- [x] Autenticação de administradores via Supabase Auth (Google/Apple)
+- [x] Guardas de rota e verificação de e-mail (ADMIN_EMAILS)
+- [x] Upload de imagens para bucket `product-images` e registro em product_images
 
 #### Dados (Mock Products)
 - [x] 10 produtos de exemplo em JSON
@@ -59,7 +64,7 @@ O projeto ELDEPARFUM foi completamente inicializado com todos os componentes, p�
 - [x] Badges (Destaque, Mais Vendido)
 
 #### Configuração
-- [x] .env.example e .env.local
+- [x] .env.example e .env.local atualizados (inclui supabase, ADMIN_EMAILS, etc)
 - [x] TypeScript com tipos completos
 - [x] ESLint configurado
 - [x] Next.js config otimizado

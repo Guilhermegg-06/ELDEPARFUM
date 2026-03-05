@@ -17,6 +17,8 @@ export interface Product {
   in_stock_label: string;
   featured: boolean;
   best_seller: boolean;
+  // whether product is visible/active in the public catalog
+  active?: boolean;
 }
 
 export interface CartItem {

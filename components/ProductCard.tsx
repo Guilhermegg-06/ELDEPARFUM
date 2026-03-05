@@ -17,7 +17,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
+    // stop click from bubbling up to the parent Link so we don't navigate when
+    // the user presses the "Adicionar" button
     e.preventDefault();
+    e.stopPropagation();
+
     setIsAdding(true);
     addToCart(product.slug, product.name, product.ml, product.price, 1);
     
@@ -41,7 +45,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             className="w-full h-full relative"
           >
             <Image
-              src={product.images[0] || '/products/placeholder-1.jpg'}
+              src={product.images[0] || 'https://via.placeholder.com/400x400/f0f0f0/666666?text=Produto'}
               alt={product.name}
               fill
               className="object-cover"

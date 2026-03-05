@@ -124,7 +124,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div className="mb-4">
                 <div className="relative h-96 md:h-[500px] bg-gray-100 rounded-lg overflow-hidden">
                   <Image
-                    src={product.images[selectedImage] || '/products/placeholder-1.jpg'}
+                    src={product.images[selectedImage] || 'https://via.placeholder.com/600x600/f0f0f0/666666?text=Produto'}
                     alt={product.name}
                     fill
                     className="object-cover"
