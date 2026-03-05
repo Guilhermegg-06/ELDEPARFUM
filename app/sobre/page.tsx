@@ -16,7 +16,7 @@ export default function SobrePage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Sobre ELDEPARFUM</h1>
-            <p className="text-gray-600 text-lg">Conheça nossa história e missão</p>
+            <p className="text-gray-700 text-lg">Conheça nossa história e missão</p>
           </motion.div>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function SobrePage() {
                 >
                   <Icon className="w-12 h-12 text-black mb-4" />
                   <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                  <p className="text-gray-600">{value.description}</p>
+                  <p className="text-gray-700">{value.description}</p>
                 </motion.div>
               );
             })}
@@ -148,3 +148,4 @@ export default function SobrePage() {
     </main>
   );
 }
+

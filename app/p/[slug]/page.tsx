@@ -103,7 +103,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-black transition"
+            className="inline-flex items-center gap-2 text-gray-700 hover:text-black transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar ao catálogo
@@ -165,7 +165,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             >
               {/* Header */}
               <div>
-                <p className="text-sm text-gray-600 uppercase tracking-wide font-medium mb-2">
+                <p className="text-sm text-gray-700 uppercase tracking-wide font-medium mb-2">
                   {product.brand}
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">{product.name}</h1>
@@ -184,7 +184,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-700">
                     {product.rating_avg} ({product.rating_count} avaliações)
                   </span>
                 </div>
@@ -208,15 +208,15 @@ export default function ProductPage({ params }: ProductPageProps) {
                 {/* Key Info */}
                 <div className="grid grid-cols-2 gap-4 mb-8 p-4 bg-gray-50 rounded-lg">
                   <div>
-                    <p className="text-sm text-gray-600 mb-1">Volume</p>
+                    <p className="text-sm text-gray-700 mb-1">Volume</p>
                     <p className="text-lg font-bold">{product.ml}ml</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 mb-1">Gênero</p>
+                    <p className="text-sm text-gray-700 mb-1">Gênero</p>
                     <p className="text-lg font-bold capitalize">{product.gender}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 mb-1">Família</p>
+                    <p className="text-sm text-gray-700 mb-1">Família</p>
                     <p className="text-lg font-bold">{product.family}</p>
                   </div>
                 </div>
@@ -321,11 +321,11 @@ export default function ProductPage({ params }: ProductPageProps) {
                         />
                       </div>
                       <div className="p-4">
-                        <p className="text-xs text-gray-600 uppercase tracking-wide mb-1">
+                        <p className="text-xs text-gray-700 uppercase tracking-wide mb-1">
                           {related.brand}
                         </p>
                         <h3 className="font-bold text-gray-900 mb-1">{related.name}</h3>
-                        <p className="text-sm text-gray-600 mb-3">{related.family}</p>
+                        <p className="text-sm text-gray-700 mb-3">{related.family}</p>
                         <p className="text-lg font-bold text-black">
                           {formatPrice(related.price)}
                         </p>

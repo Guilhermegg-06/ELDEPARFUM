@@ -90,7 +90,7 @@ export default function CatalogPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Catálogo de Perfumes</h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-700 text-lg">
               {products.length} produtos encontrados
             </p>
           </motion.div>
@@ -147,3 +147,4 @@ export default function CatalogPage() {
     </main>
   );
 }
+

@@ -38,7 +38,7 @@ export default function ContatoPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Entre em Contato</h1>
-            <p className="text-gray-600 text-lg">Estamos aqui para ajudar! Fale conosco pelo WhatsApp ou preencha o formulário abaixo.</p>
+            <p className="text-gray-700 text-lg">Estamos aqui para ajudar! Fale conosco pelo WhatsApp ou preencha o formulário abaixo.</p>
           </motion.div>
         </div>
       </section>
@@ -63,7 +63,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">WhatsApp</h3>
-                  <p className="text-gray-600 mb-2">+55 11 99999-9999</p>
+                  <p className="text-gray-700 mb-2">+55 11 99999-9999</p>
                   <a
                     href="https://wa.me/5511999999999?text=Olá%20ELDEPARFUM%21%20Gostaria%20de%20fazer%20um%20pedido."
                     target="_blank"
@@ -81,7 +81,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Email</h3>
-                  <p className="text-gray-600">contato@eldeparfum.com</p>
+                  <p className="text-gray-700">contato@eldeparfum.com</p>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Telefone</h3>
-                  <p className="text-gray-600">+55 11 3000-0000</p>
+                  <p className="text-gray-700">+55 11 3000-0000</p>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Localização</h3>
-                  <p className="text-gray-600">São Paulo, SP</p>
+                  <p className="text-gray-700">São Paulo, SP</p>
                 </div>
               </div>
 
@@ -204,3 +204,4 @@ export default function ContatoPage() {
     </main>
   );
 }
+

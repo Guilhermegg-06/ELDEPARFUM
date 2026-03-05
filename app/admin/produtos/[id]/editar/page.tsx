@@ -13,13 +13,20 @@ export default function EditProductPage() {
 
   useEffect(() => {
     const load = async () => {
+      if (!supabaseBrowser) {
+        setLoading(false);
+        return;
+      }
+
       const id = params.id;
       if (!id) return;
+
       const { data, error } = await supabaseBrowser
         .from('products')
         .select('*, product_images(url, sort_order)')
         .eq('id', id)
         .single();
+
       if (error) {
         console.error(error);
       } else if (data) {
@@ -34,10 +41,10 @@ export default function EditProductPage() {
     load();
   }, [params]);
 
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (!supabaseBrowser) {
     return (
       <main className="min-h-screen flex items-center justify-center p-8">
-        <p className="text-yellow-600">Supabase não configurado. Não é possível editar produtos.</p>
+        <p className="text-yellow-600">Supabase nao configurado. Nao e possivel editar produtos.</p>
       </main>
     );
   }
@@ -47,7 +54,7 @@ export default function EditProductPage() {
   }
 
   if (!initialData) {
-    return <p>Produto não encontrado</p>;
+    return <p>Produto nao encontrado</p>;
   }
 
   return (

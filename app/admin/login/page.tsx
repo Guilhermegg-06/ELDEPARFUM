@@ -1,55 +1,56 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { supabaseBrowser } from '@/lib/supabaseClient';
 
 export default function AdminLogin() {
+  const isSupabaseConfigured = Boolean(supabaseBrowser);
+  const getRedirectUrl = (path: string) => `${window.location.origin}${path}`;
+
   const handleGoogle = async () => {
     if (!supabaseBrowser) {
-      alert('Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY');
+      alert('Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY');
       return;
     }
-    await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: '/admin' } });
-  };
 
-  const handleApple = async () => {
-    if (!supabaseBrowser) {
-      alert('Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY');
-      return;
-    }
-    await supabaseBrowser.auth.signInWithOAuth({ provider: 'apple', options: { redirectTo: '/admin' } });
+    await supabaseBrowser.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: getRedirectUrl('/admin') },
+    });
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-6 text-center">Entrar como administrador</h1>
-        {!supabaseBrowser && (
-          <p className="text-yellow-600 mb-4 text-center">
-            Supabase não configurado. Configure as variáveis de ambiente primeiro.
+    <main className="min-h-screen bg-gradient-to-b from-gray-100 via-white to-gray-100 flex items-center justify-center px-4 py-10">
+      <section className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-xl shadow-black/5">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
+            ADM
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-black">Login Admin</h1>
+          <p className="mt-2 text-sm text-gray-700">Entre com uma conta autorizada para acessar o painel.</p>
+        </div>
+
+        {!isSupabaseConfigured && (
+          <p className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-800">
+            Supabase nao configurado. Configure as variaveis de ambiente primeiro.
           </p>
         )}
+
         <button
           onClick={handleGoogle}
-          disabled={!supabaseBrowser}
-          className="w-full mb-4 py-2 px-4 bg-red-600 text-white rounded hover:bg-red-700 transition disabled:opacity-50"
+          disabled={!isSupabaseConfigured}
+          className="w-full rounded-lg bg-black px-4 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-400"
         >
-          Entrar com Google
+          Continuar com Google
         </button>
-        {process.env.NEXT_PUBLIC_ENABLE_APPLE_AUTH === 'true' && (
-          <button
-            onClick={handleApple}
-            disabled={!supabaseBrowser}
-            className="w-full mb-4 py-2 px-4 bg-black text-white rounded hover:bg-gray-800 transition disabled:opacity-50"
-          >
-            Entrar com Apple
-          </button>
-        )}
-        <p className="text-sm text-gray-500 mt-4">
-          Use uma conta autorizada. Se você não for administrador, não terá acesso ao painel.
+
+        <p className="mt-6 text-center text-sm text-gray-700">
+          <Link href="/" className="font-medium text-black underline underline-offset-2 hover:text-gray-700">
+            Voltar ao site
+          </Link>
         </p>
-      </div>
+      </section>
     </main>
   );
 }
-

@@ -10,33 +10,39 @@ export default function AdminIndex() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL; // replaced at build time
 
   const load = async () => {
+    if (!supabaseBrowser) {
+      setError('Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY em .env.local');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     const { data, error } = await supabaseBrowser
       .from('products')
       .select('*')
       .order('created_at', { ascending: false });
+
     if (error) {
       console.error(error);
       setError('Erro ao buscar produtos');
     } else if (data) {
-      setProducts(data as any[]);
+      setProducts(data as Product[]);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    if (supabaseUrl) {
-      load();
-    } else {
-      setLoading(false);
-      setError('Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL em .env.local');
-    }
+    load();
   }, []);
 
   const handleDelete = async (id: string) => {
+    if (!supabaseBrowser) {
+      alert('Supabase nao configurado.');
+      return;
+    }
+
     if (!confirm('Tem certeza que deseja excluir este produto?')) return;
     const { error } = await supabaseBrowser.from('products').delete().eq('id', id);
     if (error) {
@@ -48,6 +54,11 @@ export default function AdminIndex() {
   };
 
   const toggleActive = async (id: string, current: boolean) => {
+    if (!supabaseBrowser) {
+      alert('Supabase nao configurado.');
+      return;
+    }
+
     const { error } = await supabaseBrowser
       .from('products')
       .update({ active: !current })
@@ -75,9 +86,6 @@ export default function AdminIndex() {
 
         {loading && <p>Carregando...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {!supabaseUrl && (
-          <p className="text-yellow-600">Painel somente disponível com Supabase configurado.</p>
-        )}
 
         {!loading && products.length === 0 && <p>Nenhum produto encontrado.</p>}
 
@@ -87,13 +95,13 @@ export default function AdminIndex() {
               <tr>
                 <th className="border-b p-2">Nome</th>
                 <th className="border-b p-2">Slug</th>
-                <th className="border-b p-2">Preço</th>
+                <th className="border-b p-2">Preco</th>
                 <th className="border-b p-2">Ativo</th>
-                <th className="border-b p-2">Ações</th>
+                <th className="border-b p-2">Acoes</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((p: any) => (
+              {products.map((p: Product) => (
                 <tr key={p.id} className="hover:bg-gray-100">
                   <td className="p-2">{p.name}</td>
                   <td className="p-2">{p.slug}</td>

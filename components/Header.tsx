@@ -53,7 +53,7 @@ export default function Header() {
           <Link href="/sobre" className="text-sm font-medium text-gray-700 hover:text-black transition">
             Sobre
           </Link>
-          <Link href="/contato" className="text-sm font-medium text-gray-700 hover:text-black transition">
+          <Link href="/catalogo/contato" className="text-sm font-medium text-gray-700 hover:text-black transition">
             Contato
           </Link>
         </div>
@@ -103,7 +103,7 @@ export default function Header() {
               Sobre
             </Link>
             <Link
-              href="/contato"
+              href="/catalogo/contato"
               className="block text-sm font-medium text-gray-700 hover:text-black transition py-2"
               onClick={() => setIsOpen(false)}
             >

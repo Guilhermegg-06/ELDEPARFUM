@@ -108,8 +108,8 @@ export default function CartDrawer({ isOpen, onClose, items }: CartDrawerProps) 
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {localItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <p className="text-gray-600 font-medium mb-2">Carrinho vazio</p>
-                  <p className="text-gray-500 text-sm mb-4">
+                  <p className="text-gray-700 font-medium mb-2">Carrinho vazio</p>
+                  <p className="text-gray-700 text-sm mb-4">
                     Adicione produtos para começar suas compras.
                   </p>
                   <Link
@@ -128,7 +128,7 @@ export default function CartDrawer({ isOpen, onClose, items }: CartDrawerProps) 
                   >
                     <div className="flex-1">
                       <p className="font-semibold text-sm">{item.name}</p>
-                      <p className="text-xs text-gray-600 mb-2">{item.ml}ml</p>
+                      <p className="text-xs text-gray-700 mb-2">{item.ml}ml</p>
                       <p className="text-sm font-bold mb-2">
                         {formatPrice(item.unitPrice * item.qty)}
                       </p>
@@ -159,7 +159,7 @@ export default function CartDrawer({ isOpen, onClose, items }: CartDrawerProps) 
                   <>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Subtotal:</span>
+                        <span className="text-gray-700">Subtotal:</span>
                         <span className="font-medium">{formatPrice(subtotal)}</span>
                       </div>
                       <div className="flex justify-between text-lg font-bold">
@@ -257,3 +257,4 @@ export default function CartDrawer({ isOpen, onClose, items }: CartDrawerProps) 
     </AnimatePresence>
   );
 }
+

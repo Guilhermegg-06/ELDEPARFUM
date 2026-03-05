@@ -28,7 +28,6 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
   const [bestSeller, setBestSeller] = useState(initial.best_seller || false);
   const [active, setActive] = useState(initial.active ?? true);
 
-  // generate slug when name changes if user hasn't edited slug manually
   useEffect(() => {
     if (!initial.slug) {
       setSlug(slugify(name || '', { lower: true, strict: true }));
@@ -36,14 +35,20 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
   }, [name, initial.slug]);
 
   const uploadImage = async (file: File) => {
+    if (!supabaseBrowser || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      alert('Supabase nao configurado para upload de imagem.');
+      return;
+    }
+
     const fileName = `${Date.now()}_${file.name}`;
-    const { data, error } = await supabaseBrowser.storage
+    const { error } = await supabaseBrowser.storage
       .from('product-images')
       .upload(fileName, file);
     if (error) {
       console.error('upload error', error);
       return;
     }
+
     const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${fileName}`;
     setImages((prev) => [...prev, url]);
   };
@@ -55,6 +60,12 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!supabaseBrowser) {
+      alert('Supabase nao configurado.');
+      return;
+    }
+
     const productData: any = {
       name,
       slug,
@@ -77,7 +88,6 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
     try {
       if (initial.id) {
         await supabaseBrowser.from('products').update(productData).eq('id', initial.id);
-        // clear existing images and re-insert
         await supabaseBrowser.from('product_images').delete().eq('product_id', initial.id);
         for (let i = 0; i < images.length; i++) {
           await supabaseBrowser.from('product_images').insert({ product_id: initial.id, url: images[i], sort_order: i });
@@ -131,7 +141,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Preço</label>
+          <label className="block text-sm font-medium text-gray-700">Preco</label>
           <input
             type="number"
             step="0.01"
@@ -154,7 +164,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Gênero</label>
+        <label className="block text-sm font-medium text-gray-700">Genero</label>
         <input
           type="text"
           value={gender}
@@ -164,7 +174,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Família</label>
+        <label className="block text-sm font-medium text-gray-700">Familia</label>
         <input
           type="text"
           value={family}
@@ -174,7 +184,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Descrição</label>
+        <label className="block text-sm font-medium text-gray-700">Descricao</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -183,7 +193,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Topo (separadas por vírgula)</label>
+        <label className="block text-sm font-medium text-gray-700">Notas de Topo (separadas por virgula)</label>
         <input
           type="text"
           value={notesTop}
@@ -192,7 +202,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Coração (separadas por vírgula)</label>
+        <label className="block text-sm font-medium text-gray-700">Notas de Coracao (separadas por virgula)</label>
         <input
           type="text"
           value={notesHeart}
@@ -201,7 +211,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Fundo (separadas por vírgula)</label>
+        <label className="block text-sm font-medium text-gray-700">Notas de Fundo (separadas por virgula)</label>
         <input
           type="text"
           value={notesBase}
@@ -221,7 +231,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
                 onClick={() => setImages(images.filter((_, i) => i !== idx))}
                 className="absolute top-0 right-0 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center"
               >
-                ×
+                x
               </button>
             </div>
           ))}

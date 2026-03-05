@@ -7,10 +7,15 @@ import { getAllowedAdminEmails } from '@/lib/admin';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [status, setStatus] = useState<'checking' | 'unauthenticated' | 'forbidden' | 'ok'>('checking');
+  const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'ok'>('checking');
 
   useEffect(() => {
     const check = async () => {
+      if (!supabaseBrowser) {
+        setStatus('misconfigured');
+        return;
+      }
+
       const {
         data: { session },
       } = await supabaseBrowser.auth.getSession();
@@ -33,6 +38,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     check();
   }, [router]);
 
+  const handleSignOut = async () => {
+    if (!supabaseBrowser) return;
+    await supabaseBrowser.auth.signOut();
+    router.push('/admin/login');
+  };
+
   if (status === 'checking') {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -41,12 +52,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
+  if (status === 'misconfigured') {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p className="text-yellow-600 mb-4">
+          Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.
+        </p>
+      </div>
+    );
+  }
+
   if (status === 'forbidden') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-red-600 mb-4">Acesso negado. Você não é um administrador autorizado.</p>
+        <p className="text-red-600 mb-4">Acesso negado. Voce nao e um administrador autorizado.</p>
         <button
-          onClick={() => supabaseBrowser.auth.signOut().then(() => router.push('/admin/login'))}
+          onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"
         >
           Sair
@@ -55,12 +76,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  // render header with sign out
   return (
     <div>
       <header className="bg-gray-100 border-b border-gray-200 py-2 px-4 flex justify-end">
         <button
-          onClick={() => supabaseBrowser.auth.signOut().then(() => router.push('/admin/login'))}
+          onClick={handleSignOut}
           className="text-sm text-red-600 hover:underline"
         >
           Sair

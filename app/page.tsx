@@ -77,12 +77,12 @@ export default function Home() {
               className="text-5xl md:text-7xl font-bold mb-6 text-black leading-tight"
             >
               Descubra Fragrâncias<br />
-              <span className="text-gray-600">que Contam Histórias</span>
+              <span className="text-gray-700">que Contam Histórias</span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto"
             >
               Explore nossa coleção curada de perfumes premium, desde clássicos intemporais até fragrâncias exclusivas que expressam sua personalidade.
             </motion.p>
@@ -128,7 +128,7 @@ export default function Home() {
             className="mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Destaques</h2>
-            <p className="text-gray-600 text-lg">Nossas fragrâncias mais procuradas e avaliadas.</p>
+            <p className="text-gray-700 text-lg">Nossas fragrâncias mais procuradas e avaliadas.</p>
           </motion.div>
 
           <ProductGrid products={products} isLoading={isLoading} />
@@ -192,7 +192,7 @@ export default function Home() {
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-700">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -201,3 +201,4 @@ export default function Home() {
     </main>
   );
 }
+
