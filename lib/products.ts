@@ -2,57 +2,108 @@ import { Product, Filter } from './types';
 import fs from 'fs';
 import path from 'path';
 
-// supabase server client is only used on the server side (API routes)
 import { supabaseServer } from './supabaseServer';
 
 const PRODUCTS_DIR = path.join(process.cwd(), 'content', 'products');
 
-export async function getAllProducts(): Promise<Product[]> {
-  // if Supabase is configured, fetch from database instead of filesystem
-  if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.SUPABASE_SERVICE_ROLE_KEY &&
-    supabaseServer
-  ) {
-    try {
-      const { data, error } = await supabaseServer
-        .from('products')
-        .select(`*, product_images(url)`) // join images
-        .eq('active', true);
+type ProductRow = {
+  id: string;
+  slug: string;
+  name: string;
+  brand: string;
+  price: number | string;
+  ml: number;
+  gender: string | null;
+  family: string | null;
+  notes_top: string[] | null;
+  notes_heart: string[] | null;
+  notes_base: string[] | null;
+  description: string | null;
+  rating_avg: number | string | null;
+  rating_count: number | null;
+  in_stock_label: string | null;
+  featured: boolean | null;
+  best_seller: boolean | null;
+  active: boolean | null;
+};
 
-      if (error) {
-        console.error('Supabase error fetching products:', error);
-        // fall back to filesystem below
-      } else if (data) {
-        // map product_images to images array
-        const products: Product[] = (data as any[]).map((p) => ({
-          id: p.id,
-          slug: p.slug,
-          name: p.name,
-          brand: p.brand,
-          price: Number(p.price),
-          ml: p.ml,
-          gender: p.gender,
-          family: p.family,
-          notes_top: p.notes_top || [],
-          notes_heart: p.notes_heart || [],
-          notes_base: p.notes_base || [],
-          description: p.description || '',
-          images: (p.product_images || []).map((img: any) => img.url),
-          rating_avg: p.rating_avg || 0,
-          rating_count: p.rating_count || 0,
-          in_stock_label: p.in_stock_label || '',
-          featured: p.featured || false,
-          best_seller: p.best_seller || false,
-        }));
-        return products;
+type ProductImageRow = {
+  product_id: string;
+  url: string;
+};
+
+function mapProductRow(row: ProductRow, images: string[]): Product {
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    brand: row.brand,
+    price: Number(row.price),
+    ml: row.ml,
+    gender: row.gender || '',
+    family: row.family || '',
+    notes_top: row.notes_top || [],
+    notes_heart: row.notes_heart || [],
+    notes_base: row.notes_base || [],
+    description: row.description || '',
+    images,
+    rating_avg: Number(row.rating_avg || 0),
+    rating_count: row.rating_count || 0,
+    in_stock_label: row.in_stock_label || 'Em estoque',
+    featured: Boolean(row.featured),
+    best_seller: Boolean(row.best_seller),
+    active: row.active ?? true,
+  };
+}
+
+async function getImagesByProductIds(productIds: string[]): Promise<Map<string, string[]>> {
+  const map = new Map<string, string[]>();
+
+  if (!supabaseServer || productIds.length === 0) {
+    return map;
+  }
+
+  const { data, error } = await supabaseServer
+    .from('product_images')
+    .select('product_id, url, sort_order')
+    .in('product_id', productIds)
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+
+  (data || []).forEach((row: ProductImageRow) => {
+    const current = map.get(row.product_id) || [];
+    current.push(row.url);
+    map.set(row.product_id, current);
+  });
+
+  return map;
+}
+
+export async function getAllProducts(): Promise<Product[]> {
+  if (supabaseServer) {
+    try {
+      const { data: productsData, error: productsError } = await supabaseServer
+        .from('products')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: false });
+
+      if (productsError) {
+        console.error('Supabase error fetching products:', productsError);
+      } else if (productsData) {
+        const rows = productsData as ProductRow[];
+        const imageMap = await getImagesByProductIds(rows.map((row) => row.id));
+        return rows.map((row) => mapProductRow(row, imageMap.get(row.id) || []));
       }
     } catch (err) {
       console.error('Error querying supabase for products:', err);
     }
   }
 
-  // fallback to filesystem-based mock
   try {
     const files = fs.readdirSync(PRODUCTS_DIR).filter((file) => file.endsWith('.json'));
     const products: Product[] = [];
@@ -62,7 +113,9 @@ export async function getAllProducts(): Promise<Product[]> {
         const filePath = path.join(PRODUCTS_DIR, file);
         const data = fs.readFileSync(filePath, 'utf-8');
         const product: Product = JSON.parse(data);
-        products.push(product);
+        if (product.active !== false) {
+          products.push(product);
+        }
       } catch (error) {
         console.error(`Error reading product file ${file}:`, error);
       }
@@ -76,47 +129,31 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  // Supabase branch
-  if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.SUPABASE_SERVICE_ROLE_KEY &&
-    supabaseServer
-  ) {
+  if (supabaseServer) {
     try {
       const { data, error } = await supabaseServer
         .from('products')
-        .select(`*, product_images(url)`) // include images
+        .select('*')
         .eq('slug', slug)
-        .single();
+        .eq('active', true)
+        .maybeSingle();
 
       if (error) {
-        if (error.code === 'PGRST116') {
-          // no rows found
-          return null;
-        }
         console.error('Supabase error fetching product by slug:', error);
       } else if (data) {
-        const product: Product = {
-          id: data.id,
-          slug: data.slug,
-          name: data.name,
-          brand: data.brand,
-          price: Number(data.price),
-          ml: data.ml,
-          gender: data.gender,
-          family: data.family,
-          notes_top: data.notes_top || [],
-          notes_heart: data.notes_heart || [],
-          notes_base: data.notes_base || [],
-          description: data.description || '',
-          images: (data.product_images || []).map((img: any) => img.url),
-          rating_avg: data.rating_avg || 0,
-          rating_count: data.rating_count || 0,
-          in_stock_label: data.in_stock_label || '',
-          featured: data.featured || false,
-          best_seller: data.best_seller || false,
-        };
-        return product;
+        const { data: imageRows, error: imageError } = await supabaseServer
+          .from('product_images')
+          .select('url, sort_order')
+          .eq('product_id', data.id)
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: true });
+
+        if (imageError) {
+          console.error('Supabase error fetching product images by slug:', imageError);
+        }
+
+        const images = (imageRows || []).map((row: { url: string }) => row.url);
+        return mapProductRow(data as ProductRow, images);
       }
     } catch (err) {
       console.error('Error querying supabase for product by slug:', err);
@@ -124,21 +161,20 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     return null;
   }
 
-  // fallback to filesystem-based mock
   try {
-    // Try exact filename first
     const filePath = path.join(PRODUCTS_DIR, `${slug}.json`);
     if (fs.existsSync(filePath)) {
       const data = fs.readFileSync(filePath, 'utf-8');
-      return JSON.parse(data) as Product;
+      const product = JSON.parse(data) as Product;
+      return product.active === false ? null : product;
     }
 
-    // Try to find by slug in content
     const files = fs.readdirSync(PRODUCTS_DIR).filter((file) => file.endsWith('.json'));
     for (const file of files) {
       const data = fs.readFileSync(path.join(PRODUCTS_DIR, file), 'utf-8');
       const product: Product = JSON.parse(data);
       if (product.slug === slug) {
+        if (product.active === false) return null;
         return product;
       }
     }

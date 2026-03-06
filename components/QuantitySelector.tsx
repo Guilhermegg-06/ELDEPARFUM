@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Minus, Plus } from 'lucide-react';
 
 interface QuantitySelectorProps {

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Star, ArrowLeft, CheckCircle } from 'lucide-react';
 import QuantitySelector from '@/components/QuantitySelector';
@@ -10,13 +11,27 @@ import { Product } from '@/lib/types';
 import { formatPrice } from '@/lib/format';
 import { addToCart } from '@/lib/cart';
 
-interface ProductPageProps {
-  params: {
-    slug: string;
-  };
+function NotesList({ notes }: { notes: string[] }) {
+  if (!notes.length) {
+    return <p className="text-sm text-gray-500">Nao informado.</p>;
+  }
+
+  return (
+    <ul className="space-y-2">
+      {notes.map((note, idx) => (
+        <li key={`${note}-${idx}`} className="flex items-center gap-2 text-gray-700">
+          <div className="w-2 h-2 bg-black rounded-full" />
+          {note}
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
+export default function ProductPage() {
+  const params = useParams<{ slug: string }>();
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,43 +40,59 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
+    if (!slug) return;
+
     const loadProduct = async () => {
+      setIsLoading(true);
       try {
-        const res = await fetch(`/api/products?slug=${params.slug}`);
-        if (!res.ok) throw new Error('Product not found');
-        const prod = await res.json();
-        
+        const res = await fetch(`/api/products?slug=${encodeURIComponent(slug)}`);
+        if (!res.ok) {
+          setProduct(null);
+          setRelatedProducts([]);
+          return;
+        }
+
+        const prod = (await res.json()) as Product;
         setProduct(prod);
         setSelectedImage(0);
 
-        // Get related products
         const allRes = await fetch('/api/products');
         const allData = await allRes.json();
-        const related = allData.data
-          .filter((p: Product) => p.family === prod.family && p.slug !== prod.slug)
+        const related = (allData.data || [])
+          .filter((item: Product) => item.family === prod.family && item.slug !== prod.slug)
           .slice(0, 4);
+
         setRelatedProducts(related);
       } catch (error) {
         console.error('Error loading product:', error);
+        setProduct(null);
+        setRelatedProducts([]);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadProduct();
-  }, [params.slug]);
+  }, [slug]);
+
+  const galleryImages = useMemo<(string | null)[]>(() => {
+    if (!product || product.images.length === 0) return [null];
+    return product.images;
+  }, [product]);
+
+  const selectedImageUrl = galleryImages[selectedImage] || null;
 
   const handleAddToCart = () => {
-    if (product) {
-      addToCart(product.slug, product.name, product.ml, product.price, qty);
-      setIsAdded(true);
-      window.dispatchEvent(new CustomEvent('cartUpdated'));
+    if (!product) return;
 
-      setTimeout(() => {
-        setIsAdded(false);
-        setQty(1);
-      }, 2000);
-    }
+    addToCart(product.slug, product.name, product.ml, product.price, qty);
+    setIsAdded(true);
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+
+    setTimeout(() => {
+      setIsAdded(false);
+      setQty(1);
+    }, 2000);
   };
 
   if (isLoading) {
@@ -86,9 +117,9 @@ export default function ProductPage({ params }: ProductPageProps) {
       <main className="min-h-screen bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Produto não encontrado</h1>
+            <h1 className="text-2xl font-bold mb-4">Produto nao encontrado</h1>
             <Link href="/catalogo" className="text-black font-medium hover:underline">
-              Voltar ao catálogo
+              Voltar ao catalogo
             </Link>
           </div>
         </div>
@@ -98,7 +129,6 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Back Button */}
       <section className="py-6 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
@@ -106,16 +136,14 @@ export default function ProductPage({ params }: ProductPageProps) {
             className="inline-flex items-center gap-2 text-gray-700 hover:text-black transition"
           >
             <ArrowLeft className="w-4 h-4" />
-            Voltar ao catálogo
+            Voltar ao catalogo
           </Link>
         </div>
       </section>
 
-      {/* Product Details */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Images */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -123,54 +151,61 @@ export default function ProductPage({ params }: ProductPageProps) {
             >
               <div className="mb-4">
                 <div className="relative h-96 md:h-[500px] bg-gray-100 rounded-lg overflow-hidden">
-                  <Image
-                    src={product.images[selectedImage] || 'https://via.placeholder.com/600x600/f0f0f0/666666?text=Produto'}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
+                  {selectedImageUrl ? (
+                    <Image
+                      src={selectedImageUrl}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center text-gray-500 text-sm">
+                      Imagem indisponivel
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Thumbnails */}
-              {product.images.length > 1 && (
-                <div className="flex gap-3">
-                  {product.images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImage(idx)}
-                      className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
-                        selectedImage === idx ? 'border-black' : 'border-gray-200'
-                      }`}
-                    >
+              <div className="flex gap-3">
+                {galleryImages.map((imageUrl, idx) => (
+                  <button
+                    key={`${imageUrl || 'placeholder'}-${idx}`}
+                    type="button"
+                    onClick={() => setSelectedImage(idx)}
+                    className={`relative w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+                      selectedImage === idx ? 'border-black' : 'border-gray-200'
+                    }`}
+                  >
+                    {imageUrl ? (
                       <Image
-                        src={img}
+                        src={imageUrl}
                         alt={`${product.name} ${idx + 1}`}
                         fill
                         className="object-cover"
                       />
-                    </button>
-                  ))}
-                </div>
-              )}
+                    ) : (
+                      <div className="h-full w-full flex items-center justify-center text-[10px] text-gray-500 bg-gray-100">
+                        Sem imagem
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
             </motion.div>
 
-            {/* Details */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="flex flex-col justify-between"
             >
-              {/* Header */}
               <div>
                 <p className="text-sm text-gray-700 uppercase tracking-wide font-medium mb-2">
                   {product.brand}
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">{product.name}</h1>
 
-                {/* Rating */}
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
@@ -185,11 +220,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                     ))}
                   </div>
                   <span className="text-sm text-gray-700">
-                    {product.rating_avg} ({product.rating_count} avaliações)
+                    {product.rating_avg} ({product.rating_count} avaliacoes)
                   </span>
                 </div>
 
-                {/* Price */}
                 <div className="mb-6">
                   <p className="text-4xl font-bold text-black mb-2">
                     {formatPrice(product.price)}
@@ -200,29 +234,30 @@ export default function ProductPage({ params }: ProductPageProps) {
                   </p>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                  {product.description}
+                  {product.description || 'Descricao indisponivel.'}
                 </p>
 
-                {/* Key Info */}
                 <div className="grid grid-cols-2 gap-4 mb-8 p-4 bg-gray-50 rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-700 mb-1">Marca</p>
+                    <p className="text-lg font-bold">{product.brand}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-700 mb-1">Familia</p>
+                    <p className="text-lg font-bold">{product.family || 'Nao informado'}</p>
+                  </div>
                   <div>
                     <p className="text-sm text-gray-700 mb-1">Volume</p>
                     <p className="text-lg font-bold">{product.ml}ml</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-700 mb-1">Gênero</p>
-                    <p className="text-lg font-bold capitalize">{product.gender}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-700 mb-1">Família</p>
-                    <p className="text-lg font-bold">{product.family}</p>
+                    <p className="text-sm text-gray-700 mb-1">Status</p>
+                    <p className="text-lg font-bold">{product.active ? 'Ativo' : 'Inativo'}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Add to Cart */}
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
@@ -234,6 +269,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </div>
 
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleAddToCart}
@@ -250,7 +286,6 @@ export default function ProductPage({ params }: ProductPageProps) {
             </motion.div>
           </div>
 
-          {/* Notes Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -260,42 +295,20 @@ export default function ProductPage({ params }: ProductPageProps) {
           >
             <div className="p-8 bg-gray-50 rounded-lg border border-gray-200">
               <h3 className="text-lg font-bold mb-4">Notas de Topo</h3>
-              <ul className="space-y-2">
-                {product.notes_top.map((note, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-gray-700">
-                    <div className="w-2 h-2 bg-black rounded-full" />
-                    {note}
-                  </li>
-                ))}
-              </ul>
+              <NotesList notes={product.notes_top} />
             </div>
 
             <div className="p-8 bg-gray-50 rounded-lg border border-gray-200">
-              <h3 className="text-lg font-bold mb-4">Notas de Coração</h3>
-              <ul className="space-y-2">
-                {product.notes_heart.map((note, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-gray-700">
-                    <div className="w-2 h-2 bg-black rounded-full" />
-                    {note}
-                  </li>
-                ))}
-              </ul>
+              <h3 className="text-lg font-bold mb-4">Notas de Coracao</h3>
+              <NotesList notes={product.notes_heart} />
             </div>
 
             <div className="p-8 bg-gray-50 rounded-lg border border-gray-200">
               <h3 className="text-lg font-bold mb-4">Notas de Fundo</h3>
-              <ul className="space-y-2">
-                {product.notes_base.map((note, idx) => (
-                  <li key={idx} className="flex items-center gap-2 text-gray-700">
-                    <div className="w-2 h-2 bg-black rounded-full" />
-                    {note}
-                  </li>
-                ))}
-              </ul>
+              <NotesList notes={product.notes_base} />
             </div>
           </motion.div>
 
-          {/* Related Products */}
           {relatedProducts.length > 0 && (
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -313,12 +326,18 @@ export default function ProductPage({ params }: ProductPageProps) {
                       className="rounded-lg overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full"
                     >
                       <div className="relative h-48 bg-gray-100">
-                        <Image
-                          src={related.images[0]}
-                          alt={related.name}
-                          fill
-                          className="object-cover"
-                        />
+                        {related.images[0] ? (
+                          <Image
+                            src={related.images[0]}
+                            alt={related.name}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="h-full w-full flex items-center justify-center text-sm text-gray-500">
+                            Sem imagem
+                          </div>
+                        )}
                       </div>
                       <div className="p-4">
                         <p className="text-xs text-gray-700 uppercase tracking-wide mb-1">

@@ -15,6 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false);
+  const imageUrl = product.images[0];
 
   const handleAddToCart = (e: React.MouseEvent) => {
     // stop click from bubbling up to the parent Link so we don't navigate when
@@ -40,18 +41,24 @@ export default function ProductCard({ product }: ProductCardProps) {
       >
         {/* Image Container */}
         <div className="relative h-64 bg-gray-100 overflow-hidden">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="w-full h-full relative"
-          >
-            <Image
-              src={product.images[0] || 'https://via.placeholder.com/400x400/f0f0f0/666666?text=Produto'}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </motion.div>
+          {imageUrl ? (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="w-full h-full relative"
+            >
+              <Image
+                src={imageUrl}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </motion.div>
+          ) : (
+            <div className="h-full w-full flex items-center justify-center text-sm text-gray-500">
+              Sem imagem
+            </div>
+          )}
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
@@ -118,6 +125,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Add to Cart Button */}
           <motion.button
+            type="button"
             onClick={handleAddToCart}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

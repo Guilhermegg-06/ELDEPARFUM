@@ -5,27 +5,47 @@ import Link from 'next/link';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+interface StoredCartItem {
+  qty: number;
+}
+
+function readCartCount(): number {
+  if (typeof window === 'undefined') return 0;
+
+  const cart = localStorage.getItem('eldeparfum_cart');
+  if (!cart) return 0;
+
+  try {
+    const items = JSON.parse(cart) as StoredCartItem[];
+    return items.reduce((sum, item) => sum + item.qty, 0);
+  } catch {
+    return 0;
+  }
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [cartCount, setCartCount] = useState(readCartCount);
+  const [isScrolled, setIsScrolled] = useState(
+    typeof window !== 'undefined' ? window.scrollY > 20 : false
+  );
 
   useEffect(() => {
-    // Get cart count
-    const cart = localStorage.getItem('eldeparfum_cart');
-    if (cart) {
-      const items = JSON.parse(cart);
-      const count = items.reduce((sum: number, item: any) => sum + item.qty, 0);
-      setCartCount(count);
-    }
+    const handleCartUpdated = () => {
+      setCartCount(readCartCount());
+    };
 
-    // Listen for scroll
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
 
+    window.addEventListener('cartUpdated', handleCartUpdated);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdated);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (

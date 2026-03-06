@@ -27,9 +27,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       }
 
       const allowed = getAllowedAdminEmails();
-      if (!allowed.includes(session.user.email || '')) {
-        setStatus('forbidden');
-        return;
+      const currentEmail = (session.user.email || '').toLowerCase();
+
+      if (allowed.length > 0) {
+        if (!allowed.map((email) => email.toLowerCase()).includes(currentEmail)) {
+          setStatus('forbidden');
+          return;
+        }
+      } else {
+        const verifyRes = await fetch('/api/admin/me', {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
+
+        if (!verifyRes.ok) {
+          setStatus('forbidden');
+          return;
+        }
       }
 
       setStatus('ok');

@@ -1,7 +1,7 @@
 import { supabaseBrowser } from './supabaseClient';
 
 export function getAllowedAdminEmails(): string[] {
-  const raw = process.env.NEXT_PUBLIC_ADMIN_EMAILS || '';
+  const raw = process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || '';
   return raw.split(',').map((s) => s.trim()).filter(Boolean);
 }
 
