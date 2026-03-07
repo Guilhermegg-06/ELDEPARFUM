@@ -122,10 +122,6 @@ export default function SobrePage() {
                 a: 'O prazo varia conforme a localização. Após confirmação do pedido no WhatsApp, nossa equipe informará o prazo exato.',
               },
               {
-                q: 'Aceita devoluções?',
-                a: 'Sim! Temos política de devolução de 7 dias se o produto chegar com defeito. Consulte nossa equipe no WhatsApp.',
-              },
-              {
                 q: 'Perfumes contratipos. Como eles funcionam?',
                 a: 'A marca do contratipo cria uma fórmula própria para ficar parecida com o perfume de referência. Normalmente usam fragrâncias/aromas (óleos aromáticos) + álcool + fixadores, em concentrações tipo EDT/EDP. O objetivo é entregar um cheiro semelhante por um preço bem menor.',
               },
