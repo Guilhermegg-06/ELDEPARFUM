@@ -63,7 +63,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">WhatsApp</h3>
-                  <p className="text-gray-700 mb-2">+55 11 99999-9999</p>
+                  <p className="text-gray-700 mb-2">+55 82 99147-9637</p>
                   <a
                     href="https://wa.me/5511999999999?text=Olá%20ELDEPARFUM%21%20Gostaria%20de%20fazer%20um%20pedido."
                     target="_blank"
@@ -81,7 +81,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Email</h3>
-                  <p className="text-gray-700">contato@eldeparfum.com</p>
+                  <p className="text-gray-700">eldeparfum@gmail.com</p>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Telefone</h3>
-                  <p className="text-gray-700">+55 11 3000-0000</p>
+                  <p className="text-gray-700">+55 82 99147-9637</p>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Localização</h3>
-                  <p className="text-gray-700">São Paulo, SP</p>
+                  <p className="text-gray-700">Maceio-AL</p>
                 </div>
               </div>
 
