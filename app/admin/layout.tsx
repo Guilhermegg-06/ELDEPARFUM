@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabaseClient';
-import { getAllowedAdminEmails } from '@/lib/admin';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -26,25 +25,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         return;
       }
 
-      const allowed = getAllowedAdminEmails();
-      const currentEmail = (session.user.email || '').toLowerCase();
+      const verifyRes = await fetch('/api/admin/me', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
 
-      if (allowed.length > 0) {
-        if (!allowed.map((email) => email.toLowerCase()).includes(currentEmail)) {
-          setStatus('forbidden');
-          return;
-        }
-      } else {
-        const verifyRes = await fetch('/api/admin/me', {
-          headers: {
-            Authorization: `Bearer ${session.access_token}`,
-          },
-        });
-
-        if (!verifyRes.ok) {
-          setStatus('forbidden');
-          return;
-        }
+      if (!verifyRes.ok) {
+        setStatus('forbidden');
+        return;
       }
 
       setStatus('ok');
@@ -73,6 +62,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <p className="text-yellow-600 mb-4">
           Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.
         </p>
+      </div>
+    );
+  }
+
+  if (status === 'unauthenticated') {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Redirecionando para login...</p>
       </div>
     );
   }
