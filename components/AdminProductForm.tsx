@@ -168,7 +168,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Nome</label>
+        <label className="block text-sm font-medium text-[#292828]">Nome</label>
         <input
           type="text"
           value={name}
@@ -178,7 +178,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Slug</label>
+        <label className="block text-sm font-medium text-[#292828]">Slug</label>
         <input
           type="text"
           value={slug}
@@ -191,7 +191,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Marca</label>
+        <label className="block text-sm font-medium text-[#292828]">Marca</label>
         <input
           type="text"
           value={brand}
@@ -202,7 +202,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Preco</label>
+          <label className="block text-sm font-medium text-[#292828]">Preco</label>
           <input
             type="number"
             step="0.01"
@@ -214,7 +214,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Volume (ml)</label>
+          <label className="block text-sm font-medium text-[#292828]">Volume (ml)</label>
           <input
             type="number"
             min="1"
@@ -228,7 +228,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Genero</label>
+        <label className="block text-sm font-medium text-[#292828]">Genero</label>
         <input
           type="text"
           value={gender}
@@ -238,7 +238,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Familia</label>
+        <label className="block text-sm font-medium text-[#292828]">Familia</label>
         <input
           type="text"
           value={family}
@@ -248,7 +248,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Descricao</label>
+        <label className="block text-sm font-medium text-[#292828]">Descricao</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -257,7 +257,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Status de estoque</label>
+        <label className="block text-sm font-medium text-[#292828]">Status de estoque</label>
         <input
           type="text"
           value={inStockLabel}
@@ -268,7 +268,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Topo (separadas por virgula)</label>
+        <label className="block text-sm font-medium text-[#292828]">Notas de Topo (separadas por virgula)</label>
         <input
           type="text"
           value={notesTop}
@@ -277,7 +277,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Coracao (separadas por virgula)</label>
+        <label className="block text-sm font-medium text-[#292828]">Notas de Coracao (separadas por virgula)</label>
         <input
           type="text"
           value={notesHeart}
@@ -286,7 +286,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notas de Fundo (separadas por virgula)</label>
+        <label className="block text-sm font-medium text-[#292828]">Notas de Fundo (separadas por virgula)</label>
         <input
           type="text"
           value={notesBase}
@@ -296,7 +296,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Imagens</label>
+        <label className="block text-sm font-medium text-[#292828]">Imagens</label>
         <div className="flex flex-wrap gap-2 my-2">
           {images.map((url, idx) => (
             <div key={idx} className="relative w-24 h-24">
@@ -325,7 +325,7 @@ export default function AdminProductForm({ initial = {}, onSave }: AdminProductF
           disabled={isUploading}
         />
         {isUploading && (
-          <p className="text-sm text-gray-600 mt-2">Enviando imagem(ns)...</p>
+          <p className="text-sm text-[#292828] mt-2">Enviando imagem(ns)...</p>
         )}
       </div>
 

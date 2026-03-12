@@ -13,13 +13,13 @@ import { addToCart } from '@/lib/cart';
 
 function NotesList({ notes }: { notes: string[] }) {
   if (!notes.length) {
-    return <p className="text-sm text-gray-500">Nao informado.</p>;
+    return <p className="text-sm text-[#292828]">Nao informado.</p>;
   }
 
   return (
     <ul className="space-y-2">
       {notes.map((note, idx) => (
-        <li key={`${note}-${idx}`} className="flex items-center gap-2 text-gray-700">
+        <li key={`${note}-${idx}`} className="flex items-center gap-2 text-[#292828]">
           <div className="w-2 h-2 bg-black rounded-full" />
           {note}
         </li>
@@ -118,7 +118,7 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Produto nao encontrado</h1>
-            <Link href="/catalogo" className="text-black font-medium hover:underline">
+            <Link href="/catalogo" className="text-[#292828] font-medium hover:underline">
               Voltar ao catalogo
             </Link>
           </div>
@@ -133,7 +133,7 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-black transition"
+            className="inline-flex items-center gap-2 text-[#292828] hover:text-[#292828] transition"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar ao catalogo
@@ -160,7 +160,7 @@ export default function ProductPage() {
                       priority
                     />
                   ) : (
-                    <div className="h-full w-full flex items-center justify-center text-gray-500 text-sm">
+                    <div className="h-full w-full flex items-center justify-center text-[#292828] text-sm">
                       Imagem indisponivel
                     </div>
                   )}
@@ -185,7 +185,7 @@ export default function ProductPage() {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="h-full w-full flex items-center justify-center text-[10px] text-gray-500 bg-gray-100">
+                      <div className="h-full w-full flex items-center justify-center text-[10px] text-[#292828] bg-gray-100">
                         Sem imagem
                       </div>
                     )}
@@ -201,7 +201,7 @@ export default function ProductPage() {
               className="flex flex-col justify-between"
             >
               <div>
-                <p className="text-sm text-gray-700 uppercase tracking-wide font-medium mb-2">
+                <p className="text-sm text-[#292828] uppercase tracking-wide font-medium mb-2">
                   {product.brand}
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">{product.name}</h1>
@@ -214,18 +214,18 @@ export default function ProductPage() {
                         className={`w-5 h-5 ${
                           i < Math.round(product.rating_avg)
                             ? 'fill-yellow-400 text-yellow-400'
-                            : 'text-gray-300'
+                            : 'text-[#292828]/30'
                         }`}
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-[#292828]">
                     {product.rating_avg} ({product.rating_count} avaliacoes)
                   </span>
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-4xl font-bold text-black mb-2">
+                  <p className="text-4xl font-bold text-[#292828] mb-2">
                     {formatPrice(product.price)}
                   </p>
                   <p className="text-green-600 font-semibold flex items-center gap-2">
@@ -234,25 +234,25 @@ export default function ProductPage() {
                   </p>
                 </div>
 
-                <p className="text-gray-700 text-lg mb-8 leading-relaxed">
+                <p className="text-[#292828] text-lg mb-8 leading-relaxed">
                   {product.description || 'Descricao indisponivel.'}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-8 p-4 bg-gray-50 rounded-lg">
                   <div>
-                    <p className="text-sm text-gray-700 mb-1">Marca</p>
+                    <p className="text-sm text-[#292828] mb-1">Marca</p>
                     <p className="text-lg font-bold">{product.brand}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-700 mb-1">Familia</p>
+                    <p className="text-sm text-[#292828] mb-1">Familia</p>
                     <p className="text-lg font-bold">{product.family || 'Nao informado'}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-700 mb-1">Volume</p>
+                    <p className="text-sm text-[#292828] mb-1">Volume</p>
                     <p className="text-lg font-bold">{product.ml}ml</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-700 mb-1">Status</p>
+                    <p className="text-sm text-[#292828] mb-1">Status</p>
                     <p className="text-lg font-bold">{product.active ? 'Ativo' : 'Inativo'}</p>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function ProductPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
-                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                    <label className="text-sm font-medium text-[#292828] block mb-2">
                       Quantidade
                     </label>
                     <QuantitySelector value={qty} onChange={setQty} />
@@ -334,18 +334,18 @@ export default function ProductPage() {
                             className="object-cover"
                           />
                         ) : (
-                          <div className="h-full w-full flex items-center justify-center text-sm text-gray-500">
+                          <div className="h-full w-full flex items-center justify-center text-sm text-[#292828]">
                             Sem imagem
                           </div>
                         )}
                       </div>
                       <div className="p-4">
-                        <p className="text-xs text-gray-700 uppercase tracking-wide mb-1">
+                        <p className="text-xs text-[#292828] uppercase tracking-wide mb-1">
                           {related.brand}
                         </p>
-                        <h3 className="font-bold text-gray-900 mb-1">{related.name}</h3>
-                        <p className="text-sm text-gray-700 mb-3">{related.family}</p>
-                        <p className="text-lg font-bold text-black">
+                        <h3 className="font-bold text-[#292828] mb-1">{related.name}</h3>
+                        <p className="text-sm text-[#292828] mb-3">{related.family}</p>
+                        <p className="text-lg font-bold text-[#292828]">
                           {formatPrice(related.price)}
                         </p>
                       </div>

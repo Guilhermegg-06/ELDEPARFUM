@@ -153,7 +153,7 @@ export default function FiltersBar({
                       onChange={() => handleBrandToggle(brand)}
                       className="w-4 h-4 rounded border-gray-300 accent-black cursor-pointer"
                     />
-                    <span className="text-sm text-gray-700">{brand}</span>
+                    <span className="text-sm text-[#292828]">{brand}</span>
                   </label>
                 ))}
               </div>
@@ -171,7 +171,7 @@ export default function FiltersBar({
                       onChange={() => handleFamilyToggle(family)}
                       className="w-4 h-4 rounded border-gray-300 accent-black cursor-pointer"
                     />
-                    <span className="text-sm text-gray-700">{family}</span>
+                    <span className="text-sm text-[#292828]">{family}</span>
                   </label>
                 ))}
               </div>

@@ -115,18 +115,18 @@ export default function CarrinhoPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white text-[#292828]">
       {/* Header */}
       <section className="py-8 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/catalogo"
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-black transition mb-6"
+            className="inline-flex items-center gap-2 text-[#292828] hover:text-[#292828] transition mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar ao catálogo
           </Link>
-          <h1 className="text-4xl font-bold">Meu Carrinho</h1>
+          <h1 className="text-4xl font-bold text-[#292828]">Meu Carrinho</h1>
         </div>
       </section>
 
@@ -140,7 +140,7 @@ export default function CarrinhoPage() {
               className="text-center py-12"
             >
               <h2 className="text-2xl font-bold mb-4">Carrinho vazio</h2>
-              <p className="text-gray-700 mb-8">Você ainda não adicionou nenhum produto.</p>
+              <p className="text-[#292828] mb-8">Você ainda não adicionou nenhum produto.</p>
               <Link
                 href="/catalogo"
                 className="inline-block px-8 py-4 bg-black text-white rounded-lg font-bold hover:bg-gray-900 transition"
@@ -181,9 +181,9 @@ export default function CarrinhoPage() {
 
                       {/* Details */}
                       <div className="flex-1">
-                        <h3 className="font-bold text-lg mb-1">{item.name}</h3>
-                        <p className="text-sm text-gray-700 mb-3">{item.ml}ml</p>
-                        <p className="text-sm font-medium text-gray-700 mb-3">
+                        <h3 className="font-bold text-lg mb-1 text-[#292828]">{item.name}</h3>
+                        <p className="text-sm text-[#292828] mb-3">{item.ml}ml</p>
+                        <p className="text-sm font-medium text-[#292828] mb-3">
                           {formatPrice(item.unitPrice)} cada
                         </p>
 
@@ -205,7 +205,7 @@ export default function CarrinhoPage() {
 
                       {/* Total */}
                       <div className="text-right flex flex-col justify-center">
-                        <p className="text-xl font-bold text-black">
+                        <p className="text-xl font-bold text-[#292828]">
                           {formatPrice(item.unitPrice * item.qty)}
                         </p>
                       </div>
@@ -236,10 +236,10 @@ export default function CarrinhoPage() {
                     <>
                       <div className="space-y-2 border-b border-gray-300 pb-4">
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-700">Subtotal:</span>
+                          <span className="text-[#292828]">Subtotal:</span>
                           <span className="font-medium">{formatPrice(subtotal)}</span>
                         </div>
-                        <div className="flex justify-between text-sm text-gray-700">
+                        <div className="flex justify-between text-sm text-[#292828]">
                           <span>Frete:</span>
                           <span>A combinar</span>
                         </div>

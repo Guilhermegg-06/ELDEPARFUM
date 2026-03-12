@@ -27,8 +27,8 @@ export default function CustomerLoginPage() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
             EP
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-black">Entrar</h1>
-          <p className="mt-2 text-sm text-gray-700">Acesse sua conta para acompanhar seus pedidos.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#292828]">Entrar</h1>
+          <p className="mt-2 text-sm text-[#292828]">Acesse sua conta para acompanhar seus pedidos.</p>
         </div>
 
         {!isSupabaseConfigured && (
@@ -45,8 +45,8 @@ export default function CustomerLoginPage() {
           Continuar com Google
         </button>
 
-        <p className="mt-6 text-center text-sm text-gray-700">
-          <Link href="/" className="font-medium text-black underline underline-offset-2 hover:text-gray-700">
+        <p className="mt-6 text-center text-sm text-[#292828]">
+          <Link href="/" className="font-medium text-[#292828] underline underline-offset-2 hover:text-[#292828]">
             Voltar ao site
           </Link>
         </p>
@@ -54,3 +54,4 @@ export default function CustomerLoginPage() {
     </main>
   );
 }
+

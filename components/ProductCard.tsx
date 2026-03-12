@@ -55,7 +55,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               />
             </motion.div>
           ) : (
-            <div className="h-full w-full flex items-center justify-center text-sm text-gray-500">
+            <div className="h-full w-full flex items-center justify-center text-sm text-[#292828]">
               Sem imagem
             </div>
           )}
@@ -78,15 +78,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Content */}
         <div className="p-4 flex flex-col h-[calc(100%-16rem)]">
           {/* Brand */}
-          <p className="text-xs text-gray-700 uppercase tracking-wide font-medium mb-2">
+          <p className="text-xs text-[#292828] uppercase tracking-wide font-medium mb-2">
             {product.brand}
           </p>
 
           {/* Name */}
-          <h3 className="font-bold text-gray-900 mb-1 line-clamp-2">{product.name}</h3>
+          <h3 className="font-bold text-[#292828] mb-1 line-clamp-2">{product.name}</h3>
 
           {/* Family */}
-          <p className="text-xs text-gray-700 mb-3">{product.family}</p>
+          <p className="text-xs text-[#292828] mb-3">{product.family}</p>
 
           {/* Rating */}
           <div className="flex items-center gap-1 mb-3">
@@ -97,25 +97,25 @@ export default function ProductCard({ product }: ProductCardProps) {
                   className={`w-3.5 h-3.5 ${
                     i < Math.round(product.rating_avg)
                       ? 'fill-yellow-400 text-yellow-400'
-                      : 'text-gray-300'
+                      : 'text-[#292828]/30'
                   }`}
                 />
               ))}
             </div>
-            <span className="text-xs text-gray-700 ml-1">
+            <span className="text-xs text-[#292828] ml-1">
               ({product.rating_count})
             </span>
           </div>
 
           {/* ML Info */}
-          <p className="text-xs text-gray-700 mb-3">{product.ml}ml</p>
+          <p className="text-xs text-[#292828] mb-3">{product.ml}ml</p>
 
           {/* Spacer */}
           <div className="flex-1" />
 
           {/* Price & Stock */}
           <div className="mb-3">
-            <p className="text-lg font-bold text-black mb-1">
+            <p className="text-lg font-bold text-[#292828] mb-1">
               {formatPrice(product.price)}
             </p>
             <p className="text-xs text-green-600 font-medium">

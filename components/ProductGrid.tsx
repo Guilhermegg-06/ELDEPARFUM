@@ -23,8 +23,8 @@ export default function ProductGrid({ products, isLoading }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
-        <p className="text-gray-700 text-lg font-medium">Nenhum produto encontrado.</p>
-        <p className="text-gray-700 text-sm">Tente ajustar seus filtros.</p>
+        <p className="text-[#292828] text-lg font-medium">Nenhum produto encontrado.</p>
+        <p className="text-[#292828] text-sm">Tente ajustar seus filtros.</p>
       </div>
     );
   }

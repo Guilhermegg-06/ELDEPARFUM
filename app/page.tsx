@@ -74,15 +74,15 @@ export default function Home() {
 
             <motion.h1
               variants={itemVariants}
-              className="text-5xl md:text-7xl font-bold mb-6 text-black leading-tight"
+              className="text-5xl md:text-7xl font-bold mb-6 text-[#292828] leading-tight"
             >
               Descubra Fragrâncias<br />
-              <span className="text-gray-700">que Contam Histórias</span>
+              <span className="text-[#292828]">que Contam Histórias</span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-[#292828] mb-8 max-w-2xl mx-auto"
             >
               Explore nossa coleção curada de perfumes premium, desde clássicos intemporais até fragrâncias exclusivas que expressam sua personalidade.
             </motion.p>
@@ -97,7 +97,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/sobre"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-black text-black rounded-lg font-bold hover:bg-black hover:text-white transition"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-black text-[#292828] rounded-lg font-bold hover:bg-black hover:text-white transition"
               >
                 Saiba Mais
               </Link>
@@ -118,7 +118,7 @@ export default function Home() {
       </motion.section>
 
       {/* Destaques */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white text-[#292828]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -127,8 +127,8 @@ export default function Home() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Destaques</h2>
-            <p className="text-gray-700 text-lg">Nossas fragrâncias mais procuradas e avaliadas.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#292828]">Destaques</h2>
+            <p className="text-[#292828] text-lg">Nossas fragrâncias mais procuradas e avaliadas.</p>
           </motion.div>
 
           <ProductGrid products={products} isLoading={isLoading} />
@@ -152,7 +152,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 text-[#292828]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -161,7 +161,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Por que escolher ELDEPARFUM?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#292828]">Por que escolher ELDEPARFUM?</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -191,8 +191,8 @@ export default function Home() {
                 className="p-8 bg-white rounded-lg border border-gray-200 hover:shadow-lg transition"
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-700">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-[#292828]">{feature.title}</h3>
+                <p className="text-[#292828]">{feature.description}</p>
               </motion.div>
             ))}
           </div>

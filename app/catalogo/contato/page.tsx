@@ -38,7 +38,7 @@ export default function ContatoPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Entre em Contato</h1>
-            <p className="text-gray-700 text-lg">Estamos aqui para ajudar! Fale conosco pelo WhatsApp ou preencha o formulário abaixo.</p>
+            <p className="text-[#292828] text-lg">Estamos aqui para ajudar! Fale conosco pelo WhatsApp ou preencha o formulário abaixo.</p>
           </motion.div>
         </div>
       </section>
@@ -59,11 +59,11 @@ export default function ContatoPage() {
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <MessageCircle className="w-6 h-6 text-black" />
+                  <MessageCircle className="w-6 h-6 text-[#292828]" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">WhatsApp</h3>
-                  <p className="text-gray-700 mb-2">+55 82 99147-9637</p>
+                  <p className="text-[#292828] mb-2">+55 82 99147-9637</p>
                   <a
                     href="https://wa.me/5511999999999?text=Olá%20ELDEPARFUM%21%20Gostaria%20de%20fazer%20um%20pedido."
                     target="_blank"
@@ -77,31 +77,31 @@ export default function ContatoPage() {
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <Mail className="w-6 h-6 text-black" />
+                  <Mail className="w-6 h-6 text-[#292828]" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Email</h3>
-                  <p className="text-gray-700">eldeparfum@gmail.com</p>
+                  <p className="text-[#292828]">eldeparfum@gmail.com</p>
                 </div>
               </div>
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <Phone className="w-6 h-6 text-black" />
+                  <Phone className="w-6 h-6 text-[#292828]" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Telefone</h3>
-                  <p className="text-gray-700">+55 82 99147-9637</p>
+                  <p className="text-[#292828]">+55 82 99147-9637</p>
                 </div>
               </div>
 
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-black" />
+                  <MapPin className="w-6 h-6 text-[#292828]" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Localização</h3>
-                  <p className="text-gray-700">Maceio-AL</p>
+                  <p className="text-[#292828]">Maceio-AL</p>
                 </div>
               </div>
 
@@ -140,7 +140,7 @@ export default function ContatoPage() {
                 <h2 className="text-3xl font-bold">Envie sua mensagem</h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-[#292828] mb-2">
                     Nome
                   </label>
                   <input
@@ -155,7 +155,7 @@ export default function ContatoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-[#292828] mb-2">
                     Email
                   </label>
                   <input
@@ -170,7 +170,7 @@ export default function ContatoPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-[#292828] mb-2">
                     Mensagem
                   </label>
                   <textarea

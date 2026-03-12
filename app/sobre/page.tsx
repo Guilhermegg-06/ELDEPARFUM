@@ -16,7 +16,7 @@ export default function SobrePage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Sobre ELDEPARFUM</h1>
-            <p className="text-gray-700 text-lg">Conheça nossa história e missão</p>
+            <p className="text-[#292828] text-lg">Conheça nossa história e missão</p>
           </motion.div>
         </div>
       </section>
@@ -32,13 +32,13 @@ export default function SobrePage() {
             className="prose prose-lg max-w-none"
           >
             <h2 className="text-3xl font-bold mb-6">Nossa História</h2>
-            <p className="text-gray-700 mb-4 leading-relaxed">
+            <p className="text-[#292828] mb-4 leading-relaxed">
               ELDEPARFUM nasceu da paixão por fragrâncias e da vontade de compartilhar 
               experiências sensoriais únicas com nossos clientes. Somos um catálogo 
               curado de perfumes premium, trazendo o melhor das marcas mais renomadas 
               do mundo para sua casa.
             </p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-[#292828] leading-relaxed">
               Nossa missão é simplificar a jornada de descoberta de fragrâncias perfeitas, 
               oferecendo descrições detalhadas, recomendações e um processo de compra 
               fácil e seguro.
@@ -88,9 +88,9 @@ export default function SobrePage() {
                   viewport={{ once: true }}
                   className="p-8 bg-white rounded-lg border border-gray-200 hover:shadow-lg transition"
                 >
-                  <Icon className="w-12 h-12 text-black mb-4" />
+                  <Icon className="w-12 h-12 text-[#292828] mb-4" />
                   <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                  <p className="text-gray-700">{value.description}</p>
+                  <p className="text-[#292828]">{value.description}</p>
                 </motion.div>
               );
             })}
@@ -135,7 +135,7 @@ export default function SobrePage() {
                 className="p-6 bg-gray-50 rounded-lg border border-gray-200"
               >
                 <h3 className="font-bold text-lg mb-2">{faq.q}</h3>
-                <p className="text-gray-700">{faq.a}</p>
+                <p className="text-[#292828]">{faq.a}</p>
               </motion.div>
             ))}
           </div>
