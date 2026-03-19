@@ -283,6 +283,7 @@ export default function CarrinhoPage() {
                           className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-black"
                         />
                         <select
+                          aria-label="Opção de entrega"
                           value={customerInfo.delivery}
                           onChange={(e) =>
                             setCustomerInfo({ ...customerInfo, delivery: e.target.value })
@@ -293,6 +294,7 @@ export default function CarrinhoPage() {
                           <option value="retirada">Retirada</option>
                         </select>
                         <select
+                          aria-label="Método de pagamento"
                           value={customerInfo.payment}
                           onChange={(e) =>
                             setCustomerInfo({ ...customerInfo, payment: e.target.value })
