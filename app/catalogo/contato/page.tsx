@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
+import { createWhatsAppLink, getWhatsAppDisplayPhone } from '@/lib/whatsapp';
 
 export default function ContatoPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ export default function ContatoPage() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const whatsappDisplayPhone = getWhatsAppDisplayPhone();
+  const orderLink = createWhatsAppLink('Ola ELDEPARFUM! Gostaria de fazer um pedido.');
+  const recommendationLink = createWhatsAppLink('Ola! Qual e a sua recomendacao de perfume para mim?');
+  const stockLink = createWhatsAppLink('Ola! Gostaria de saber se tem em estoque...');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,9 +68,9 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">WhatsApp</h3>
-                  <p className="text-[#292828] mb-2">+55 82 99147-9637</p>
+                  <p className="text-[#292828] mb-2">{whatsappDisplayPhone}</p>
                   <a
-                    href="https://wa.me/+558299147-9637?text=Olá%20ELDEPARFUM%21%20Gostaria%20de%20fazer%20um%20pedido."
+                    href={orderLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium hover:text-green-700 transition"
@@ -91,7 +96,7 @@ export default function ContatoPage() {
                 </div>
                 <div>
                   <h3 className="font-bold mb-1">Telefone</h3>
-                  <p className="text-[#292828]">+55 82 99147-9637</p>
+                  <p className="text-[#292828]">{whatsappDisplayPhone}</p>
                 </div>
               </div>
 
@@ -110,7 +115,7 @@ export default function ContatoPage() {
                 <h3 className="font-bold mb-4">Atendimento Rápido</h3>
                 <div className="space-y-2">
                   <a
-                    href="https://wa.me/+558299147-9637?text=Olá%21%20Qual%20é%20a%20sua%20recomendação%20de%20perfume%20para%20mim?"
+                    href={recommendationLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block p-3 bg-green-50 rounded-lg hover:bg-green-100 transition font-medium text-green-700"
@@ -118,7 +123,7 @@ export default function ContatoPage() {
                     Pedir Recomendação 💬
                   </a>
                   <a
-                    href="https://wa.me/+558299147-9637?text=Olá%21%20Gostaria%20de%20saber%20se%20tem%20em%20estoque..."
+                    href={stockLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition font-medium text-blue-700"
