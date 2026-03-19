@@ -8,17 +8,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const isLoginRoute = pathname === '/admin/login';
-  const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'ok'>('checking');
+  const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'error' | 'ok'>('checking');
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const check = async () => {
       if (isLoginRoute) {
         setStatus('ok');
+        setStatusMessage(null);
         return;
       }
 
       if (!supabaseBrowser) {
         setStatus('misconfigured');
+        setStatusMessage('Supabase browser nao configurado.');
         return;
       }
 
@@ -28,6 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       if (!session) {
         setStatus('unauthenticated');
+        setStatusMessage('Sessao nao encontrada. Redirecionando para login...');
         router.push('/admin/login');
         return;
       }
@@ -39,11 +43,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       });
 
       if (!verifyRes.ok) {
-        setStatus('forbidden');
+        let apiMessage = 'Falha ao validar acesso ao painel.';
+
+        try {
+          const payload = await verifyRes.json();
+          if (payload && typeof payload.error === 'string' && payload.error.trim()) {
+            apiMessage = payload.error;
+          }
+        } catch {
+          // Ignore payload parsing errors and keep fallback message.
+        }
+
+        if (verifyRes.status === 401) {
+          await supabaseBrowser.auth.signOut();
+          setStatus('unauthenticated');
+          setStatusMessage(apiMessage);
+          router.push('/admin/login');
+          return;
+        }
+
+        if (verifyRes.status === 403) {
+          setStatus('forbidden');
+          setStatusMessage(apiMessage);
+          return;
+        }
+
+        setStatus('error');
+        setStatusMessage(apiMessage);
         return;
       }
 
       setStatus('ok');
+      setStatusMessage(null);
     };
 
     check();
@@ -71,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
         <p className="text-yellow-600 mb-4">
-          Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.
+          {statusMessage || 'Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.'}
         </p>
       </div>
     );
@@ -79,8 +110,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (status === 'unauthenticated') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Redirecionando para login...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <p>{statusMessage || 'Redirecionando para login...'}</p>
       </div>
     );
   }
@@ -88,12 +119,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status === 'forbidden') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-red-600 mb-4">Acesso negado. Voce nao e um administrador autorizado.</p>
+        <p className="text-red-600 mb-4">
+          {statusMessage || 'Acesso negado. Voce nao e um administrador autorizado.'}
+        </p>
         <button
           onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"
         >
           Sair
+        </button>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+        <p className="text-red-600 mb-4">
+          {statusMessage || 'Falha ao validar o acesso admin.'}
+        </p>
+        <button
+          onClick={handleSignOut}
+          className="bg-black text-white py-2 px-4 rounded"
+        >
+          Limpar sessao e sair
         </button>
       </div>
     );
