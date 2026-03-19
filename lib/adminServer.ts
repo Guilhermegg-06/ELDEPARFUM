@@ -49,10 +49,23 @@ export async function requireAdmin(request: NextRequest): Promise<AdminGuardResu
   }
 
   const allowedEmails = getServerAdminEmails();
+  if (allowedEmails.length === 0) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { error: 'Nenhum administrador configurado em ADMIN_EMAILS.' },
+        { status: 500 }
+      ),
+    };
+  }
+
   if (!allowedEmails.includes(email)) {
     return {
       ok: false,
-      response: NextResponse.json({ error: 'Acesso negado.' }, { status: 403 }),
+      response: NextResponse.json(
+        { error: `Acesso negado para ${email}.` },
+        { status: 403 }
+      ),
     };
   }
 

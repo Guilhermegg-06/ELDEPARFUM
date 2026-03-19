@@ -10,6 +10,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const isLoginRoute = pathname === '/admin/login';
   const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'error' | 'ok'>('checking');
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [sessionEmail, setSessionEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const check = async () => {
@@ -30,11 +31,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       } = await supabaseBrowser.auth.getSession();
 
       if (!session) {
+        setSessionEmail(null);
         setStatus('unauthenticated');
         setStatusMessage('Sessao nao encontrada. Redirecionando para login...');
         router.push('/admin/login');
         return;
       }
+
+      setSessionEmail(session.user.email?.toLowerCase() || null);
 
       const verifyRes = await fetch('/api/admin/me', {
         headers: {
@@ -56,6 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         if (verifyRes.status === 401) {
           await supabaseBrowser.auth.signOut();
+          setSessionEmail(null);
           setStatus('unauthenticated');
           setStatusMessage(apiMessage);
           router.push('/admin/login');
@@ -83,6 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const handleSignOut = async () => {
     if (!supabaseBrowser) return;
     await supabaseBrowser.auth.signOut();
+    setSessionEmail(null);
     router.push('/admin/login');
   };
 
@@ -122,11 +128,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <p className="text-red-600 mb-4">
           {statusMessage || 'Acesso negado. Voce nao e um administrador autorizado.'}
         </p>
+        {sessionEmail && (
+          <p className="mb-4 text-sm text-[#292828]">Sessao atual: {sessionEmail}</p>
+        )}
         <button
           onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"
         >
-          Sair
+          Trocar conta
         </button>
       </div>
     );
@@ -138,6 +147,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <p className="text-red-600 mb-4">
           {statusMessage || 'Falha ao validar o acesso admin.'}
         </p>
+        {sessionEmail && (
+          <p className="mb-4 text-sm text-[#292828]">Sessao atual: {sessionEmail}</p>
+        )}
         <button
           onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"

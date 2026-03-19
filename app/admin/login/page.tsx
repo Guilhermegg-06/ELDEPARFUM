@@ -16,7 +16,12 @@ export default function AdminLogin() {
 
     await supabaseBrowser.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: getRedirectUrl('/admin') },
+      options: {
+        redirectTo: getRedirectUrl('/admin'),
+        queryParams: {
+          prompt: 'select_account',
+        },
+      },
     });
   };
 
