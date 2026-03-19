@@ -58,17 +58,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           // Ignore payload parsing errors and keep fallback message.
         }
 
-        if (verifyRes.status === 401) {
-          await supabaseBrowser.auth.signOut();
-          setSessionEmail(null);
-          setStatus('unauthenticated');
+        if (verifyRes.status === 403) {
+          setStatus('forbidden');
           setStatusMessage(apiMessage);
-          router.push('/admin/login');
           return;
         }
 
-        if (verifyRes.status === 403) {
-          setStatus('forbidden');
+        if (verifyRes.status === 401) {
+          setStatus('error');
           setStatusMessage(apiMessage);
           return;
         }

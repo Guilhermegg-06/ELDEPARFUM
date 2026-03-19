@@ -42,9 +42,13 @@ export async function requireAdmin(request: NextRequest): Promise<AdminGuardResu
   const email = data.user?.email?.toLowerCase();
 
   if (error || !email) {
+    const message = error?.message?.trim()
+      ? `Sessao invalida. ${error.message}`
+      : 'Sessao invalida. Email nao encontrado no token.';
+
     return {
       ok: false,
-      response: NextResponse.json({ error: 'Sessao invalida.' }, { status: 401 }),
+      response: NextResponse.json({ error: message }, { status: 401 }),
     };
   }
 
