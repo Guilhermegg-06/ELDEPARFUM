@@ -1,15 +1,22 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabaseClient';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isLoginRoute = pathname === '/admin/login';
   const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'ok'>('checking');
 
   useEffect(() => {
     const check = async () => {
+      if (isLoginRoute) {
+        setStatus('ok');
+        return;
+      }
+
       if (!supabaseBrowser) {
         setStatus('misconfigured');
         return;
@@ -40,13 +47,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     };
 
     check();
-  }, [router]);
+  }, [isLoginRoute, router]);
 
   const handleSignOut = async () => {
     if (!supabaseBrowser) return;
     await supabaseBrowser.auth.signOut();
     router.push('/admin/login');
   };
+
+  if (isLoginRoute) {
+    return <>{children}</>;
+  }
 
   if (status === 'checking') {
     return (
