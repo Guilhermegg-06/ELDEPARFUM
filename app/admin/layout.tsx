@@ -9,20 +9,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const isLoginRoute = pathname === '/admin/login';
   const [status, setStatus] = useState<'checking' | 'misconfigured' | 'unauthenticated' | 'forbidden' | 'error' | 'ok'>('checking');
-  const [statusMessage, setStatusMessage] = useState<string | null>(null);
-  const [sessionEmail, setSessionEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const check = async () => {
       if (isLoginRoute) {
         setStatus('ok');
-        setStatusMessage(null);
         return;
       }
 
       if (!supabaseBrowser) {
         setStatus('misconfigured');
-        setStatusMessage('Supabase browser nao configurado.');
         return;
       }
 
@@ -31,14 +27,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       } = await supabaseBrowser.auth.getSession();
 
       if (!session) {
-        setSessionEmail(null);
         setStatus('unauthenticated');
-        setStatusMessage('Sessao nao encontrada. Redirecionando para login...');
         router.push('/admin/login');
         return;
       }
-
-      setSessionEmail(session.user.email?.toLowerCase() || null);
 
       const verifyRes = await fetch('/api/admin/me', {
         headers: {
@@ -47,36 +39,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       });
 
       if (!verifyRes.ok) {
-        let apiMessage = 'Falha ao validar acesso ao painel.';
-
-        try {
-          const payload = await verifyRes.json();
-          if (payload && typeof payload.error === 'string' && payload.error.trim()) {
-            apiMessage = payload.error;
-          }
-        } catch {
-          // Ignore payload parsing errors and keep fallback message.
-        }
-
         if (verifyRes.status === 403) {
           setStatus('forbidden');
-          setStatusMessage(apiMessage);
           return;
         }
 
         if (verifyRes.status === 401) {
           setStatus('error');
-          setStatusMessage(apiMessage);
           return;
         }
 
         setStatus('error');
-        setStatusMessage(apiMessage);
         return;
       }
 
       setStatus('ok');
-      setStatusMessage(null);
     };
 
     check();
@@ -85,7 +62,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const handleSignOut = async () => {
     if (!supabaseBrowser) return;
     await supabaseBrowser.auth.signOut();
-    setSessionEmail(null);
     router.push('/admin/login');
   };
 
@@ -105,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
         <p className="text-yellow-600 mb-4">
-          {statusMessage || 'Supabase nao configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.'}
+          Painel admin indisponivel por configuracao do Supabase.
         </p>
       </div>
     );
@@ -114,7 +90,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status === 'unauthenticated') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p>{statusMessage || 'Redirecionando para login...'}</p>
+        <p>Redirecionando para login...</p>
       </div>
     );
   }
@@ -122,12 +98,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status === 'forbidden') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-red-600 mb-4">
-          {statusMessage || 'Acesso negado. Voce nao e um administrador autorizado.'}
-        </p>
-        {sessionEmail && (
-          <p className="mb-4 text-sm text-[#292828]">Sessao atual: {sessionEmail}</p>
-        )}
+        <p className="text-red-600 mb-4">Acesso negado. Voce nao e um administrador autorizado.</p>
         <button
           onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"
@@ -141,12 +112,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status === 'error') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-        <p className="text-red-600 mb-4">
-          {statusMessage || 'Falha ao validar o acesso admin.'}
-        </p>
-        {sessionEmail && (
-          <p className="mb-4 text-sm text-[#292828]">Sessao atual: {sessionEmail}</p>
-        )}
+        <p className="text-red-600 mb-4">Nao foi possivel validar sua sessao admin.</p>
         <button
           onClick={handleSignOut}
           className="bg-black text-white py-2 px-4 rounded"

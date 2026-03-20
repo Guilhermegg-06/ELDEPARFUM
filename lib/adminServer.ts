@@ -42,13 +42,9 @@ export async function requireAdmin(request: NextRequest): Promise<AdminGuardResu
   const email = data.user?.email?.toLowerCase();
 
   if (error || !email) {
-    const message = error?.message?.trim()
-      ? `Sessao invalida. ${error.message}`
-      : 'Sessao invalida. Email nao encontrado no token.';
-
     return {
       ok: false,
-      response: NextResponse.json({ error: message }, { status: 401 }),
+      response: NextResponse.json({ error: 'Sessao invalida.' }, { status: 401 }),
     };
   }
 
@@ -57,7 +53,7 @@ export async function requireAdmin(request: NextRequest): Promise<AdminGuardResu
     return {
       ok: false,
       response: NextResponse.json(
-        { error: 'Nenhum administrador configurado em ADMIN_EMAILS.' },
+        { error: 'Configuracao de administradores ausente.' },
         { status: 500 }
       ),
     };
@@ -66,10 +62,7 @@ export async function requireAdmin(request: NextRequest): Promise<AdminGuardResu
   if (!allowedEmails.includes(email)) {
     return {
       ok: false,
-      response: NextResponse.json(
-        { error: `Acesso negado para ${email}.` },
-        { status: 403 }
-      ),
+      response: NextResponse.json({ error: 'Acesso negado.' }, { status: 403 }),
     };
   }
 
