@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { CART_STORAGE_KEY } from '@/lib/cart';
 
 interface StoredCartItem {
   qty: number;
@@ -12,7 +13,7 @@ interface StoredCartItem {
 function readCartCount(): number {
   if (typeof window === 'undefined') return 0;
 
-  const cart = localStorage.getItem('eldeparfum_cart');
+  const cart = localStorage.getItem(CART_STORAGE_KEY);
   if (!cart) return 0;
 
   try {

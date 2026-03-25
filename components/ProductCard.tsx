@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ShoppingCart, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Product } from '@/lib/types';
@@ -14,12 +14,15 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
   const [isAdding, setIsAdding] = useState(false);
   const imageUrl = product.images[0];
 
+  const handleNavigate = () => {
+    router.push(`/p/${product.slug}`);
+  };
+
   const handleAddToCart = (e: React.MouseEvent) => {
-    // stop click from bubbling up to the parent Link so we don't navigate when
-    // the user presses the "Adicionar" button
     e.preventDefault();
     e.stopPropagation();
 
@@ -34,11 +37,19 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link href={`/p/${product.slug}`}>
-      <motion.div
-        whileHover={{ y: -8 }}
-        className="group h-full rounded-lg overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-      >
+    <motion.div
+      whileHover={{ y: -8 }}
+      onClick={handleNavigate}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleNavigate();
+        }
+      }}
+      role="link"
+      tabIndex={0}
+      className="group h-full rounded-lg overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+    >
         {/* Image Container */}
         <div className="relative h-64 bg-gray-100 overflow-hidden">
           {imageUrl ? (
@@ -137,7 +148,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           </motion.button>
         </div>
       </motion.div>
-    </Link>
   );
 }
 

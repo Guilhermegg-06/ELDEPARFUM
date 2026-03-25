@@ -1,21 +1,26 @@
 import { CartItem } from './types';
 
-const CART_STORAGE_KEY = 'eldeparfum_cart';
+export const CART_STORAGE_KEY = 'eldeparfum_cart_v1';
 
-export function getCart(): CartItem[] {
+export function loadCart(): CartItem[] {
   if (typeof window === 'undefined') return [];
-  
+
   try {
     const cartData = localStorage.getItem(CART_STORAGE_KEY);
-    return cartData ? JSON.parse(cartData) : [];
+    if (!cartData) return [];
+
+    const parsed = JSON.parse(cartData);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
 }
 
+export const getCart = loadCart;
+
 export function saveCart(items: CartItem[]): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   } catch (error) {
@@ -30,7 +35,7 @@ export function addToCart(
   unitPrice: number,
   qty: number = 1
 ): CartItem[] {
-  const cart = getCart();
+  const cart = loadCart();
   const existingItem = cart.find((item) => item.slug === slug);
 
   if (existingItem) {
@@ -44,20 +49,21 @@ export function addToCart(
 }
 
 export function removeFromCart(slug: string): CartItem[] {
-  const cart = getCart();
+  const cart = loadCart();
   const filtered = cart.filter((item) => item.slug !== slug);
   saveCart(filtered);
   return filtered;
 }
 
 export function updateCartItemQty(slug: string, qty: number): CartItem[] {
-  const cart = getCart();
-  const item = cart.find((item) => item.slug === slug);
+  const cart = loadCart();
+  const item = cart.find((entry) => entry.slug === slug);
 
   if (item) {
     if (qty <= 0) {
       return removeFromCart(slug);
     }
+
     item.qty = qty;
   }
 
@@ -71,7 +77,7 @@ export function clearCart(): void {
 
 export function calculateCartTotals(items: CartItem[]) {
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.qty, 0);
-  const total = subtotal; // Sem taxa de envio por enquanto
+  const total = subtotal;
   const totalItems = items.reduce((sum, item) => sum + item.qty, 0);
 
   return { subtotal, total, totalItems };
