@@ -1,5 +1,5 @@
 import { Product } from './types';
-import { supabaseServer } from './supabaseServer';
+import { supabasePublicServer } from './supabasePublicServer';
 
 type ProductRow = {
   id: string;
@@ -54,11 +54,11 @@ function mapProductRow(row: ProductRow, images: string[]): Product {
 async function getImagesByProductIds(productIds: string[]): Promise<Map<string, string[]>> {
   const imageMap = new Map<string, string[]>();
 
-  if (!supabaseServer || productIds.length === 0) {
+  if (!supabasePublicServer || productIds.length === 0) {
     return imageMap;
   }
 
-  const { data, error } = await supabaseServer
+  const { data, error } = await supabasePublicServer
     .from('product_images')
     .select('product_id, url, sort_order, created_at')
     .in('product_id', productIds)
@@ -79,11 +79,11 @@ async function getImagesByProductIds(productIds: string[]): Promise<Map<string, 
 }
 
 export async function listActiveProducts(): Promise<Product[]> {
-  if (!supabaseServer) {
+  if (!supabasePublicServer) {
     return [];
   }
 
-  const { data, error } = await supabaseServer
+  const { data, error } = await supabasePublicServer
     .from('products')
     .select('*')
     .eq('active', true)
@@ -100,11 +100,11 @@ export async function listActiveProducts(): Promise<Product[]> {
 }
 
 export async function getBySlug(slug: string): Promise<Product | null> {
-  if (!supabaseServer) {
+  if (!supabasePublicServer) {
     return null;
   }
 
-  const { data, error } = await supabaseServer
+  const { data, error } = await supabasePublicServer
     .from('products')
     .select('*')
     .eq('slug', slug)
@@ -119,7 +119,7 @@ export async function getBySlug(slug: string): Promise<Product | null> {
     return null;
   }
 
-  const { data: imageRows, error: imageError } = await supabaseServer
+  const { data: imageRows, error: imageError } = await supabasePublicServer
     .from('product_images')
     .select('url, sort_order, created_at')
     .eq('product_id', data.id)
