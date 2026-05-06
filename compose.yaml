@@ -10,7 +10,7 @@ services:
         NEXT_PUBLIC_ENABLE_APPLE_AUTH: ${NEXT_PUBLIC_ENABLE_APPLE_AUTH:-false}
         NEXT_PUBLIC_ADMIN_EMAILS: ${NEXT_PUBLIC_ADMIN_EMAILS:-}
     env_file:
-      - .env.local
+      - .env.docker
     ports:
       - "3000:3000"
     restart: unless-stopped
