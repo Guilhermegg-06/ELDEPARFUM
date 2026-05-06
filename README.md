@@ -448,3 +448,43 @@ Resumo das regras:
 - upload, update e delete feitos somente via server/admin
 
 
+
+## Docker
+
+Arquivos usados no fluxo de container:
+
+- `Dockerfile`: imagem multi-stage com build standalone do Next.js
+- `compose.yaml`: sobe a aplicacao na porta `3000`
+- `.env.docker.example`: modelo das variaveis para container
+
+### Preparar o ambiente do container
+
+1. Copie `.env.docker.example` para `.env.docker`.
+2. Preencha as mesmas variaveis usadas em producao/local (`NEXT_PUBLIC_*`, `ADMIN_EMAILS` e `SUPABASE_SERVICE_ROLE_KEY`).
+3. Mantenha `SUPABASE_SERVICE_ROLE_KEY` apenas no arquivo do container/servidor.
+
+### Subir com Docker Compose
+
+```bash
+docker compose --env-file .env.docker up --build
+```
+
+Aplicacao disponivel em `http://localhost:3000`.
+
+### Subir em background
+
+```bash
+docker compose --env-file .env.docker up -d --build
+```
+
+### Parar os containers
+
+```bash
+docker compose down
+```
+
+### Observacoes
+
+- As variaveis `NEXT_PUBLIC_*` precisam existir no momento do build do container, porque o Next.js injeta esses valores no bundle cliente.
+- O container usa `HEALTHCHECK` em `http://127.0.0.1:3000/` para facilitar monitoramento.
+- Para desenvolvimento sem Docker, continue usando `.env.local` com `npm run dev`.
