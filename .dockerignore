@@ -1,0 +1,12 @@
+.git
+.next
+coverage
+node_modules
+npm-debug.log*
+tests
+docs
+.vscode
+.env
+.env.*
+README.md
+SETUP_CHECKLIST.md

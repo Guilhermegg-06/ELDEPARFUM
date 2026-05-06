@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import CatalogPageClient from '@/components/CatalogPageClient';
 import { buildFilters } from '@/lib/products';
 import { listActiveProducts } from '@/lib/productsRepo';

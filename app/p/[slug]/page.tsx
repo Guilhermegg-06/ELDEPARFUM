@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import ProductPageContent from '@/components/ProductPageContent';
 import { listActiveProducts, getBySlug } from '@/lib/productsRepo';

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import HomePageContent from '@/components/HomePageContent';
 import { filterProducts } from '@/lib/products';
 import { listActiveProducts } from '@/lib/productsRepo';
