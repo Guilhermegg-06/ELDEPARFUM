@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "custosAutorizados": {
+      "value": false
+    },
+    "appName": {
+      "value": "elde-demand-demo-unique"
+    },
+    "location": {
+      "value": "eastus"
+    },
+    "allowedOrigins": {
+      "value": [
+        "https://YOUR-FRONTEND.example"
+      ]
+    },
+    "supabaseUrl": {
+      "value": "https://YOUR-PROJECT.supabase.co"
+    },
+    "supabasePublishableKey": {
+      "value": "REPLACE_LOCALLY"
+    },
+    "adminUserIds": {
+      "value": "SYNTHETIC_TEST_USER_UUID"
+    },
+    "dailyLimit": {
+      "value": 100
+    }
+  }
+}

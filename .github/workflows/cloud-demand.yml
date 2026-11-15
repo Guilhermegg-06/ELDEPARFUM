@@ -1,0 +1,47 @@
+name: Cloud Demand
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [feat/cloud-demand-frente-a]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cloud-demand-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cloud-demand
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: cloud-demand/package-lock.json
+      - name: Install locked runtime dependencies
+        run: npm ci
+      - run: npm test
+      - run: npm run check
+      - name: Validate runtime imports
+        run: node -e "import('./src/functions.mjs')"
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+  infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile Bicep without creating resources
+        run: az bicep build --file infra/cloud-demand/main.bicep --stdout > /dev/null

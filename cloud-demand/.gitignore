@@ -1,0 +1,7 @@
+node_modules/
+local.settings.json
+.env
+coverage/
+*.zip
+.azurite/
+deploy-*/
