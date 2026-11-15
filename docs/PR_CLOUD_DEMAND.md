@@ -1,13 +1,24 @@
 # feat: registra demanda de perfumes ausentes com Azure Functions
 
-Clientes que procuram referências ainda ausentes poderão confirmar interesse sem alterar o catálogo existente. A Frente A entrega uma API Azure Functions com Table Storage, normalização por aliases, gravação idempotente e ranking administrativo protegido pelo token Supabase existente e allowlist no servidor.
+A Frente A entrega a API para registrar interesse explícito por perfumes ausentes e consultar um ranking administrativo, preservando o catálogo existente. O POST exige `confirmado=true`, normaliza aliases como Asad/Assad, mantém Asad Bourbon separado e usa idempotência e quota diária atômica no adaptador Table Storage. O GET valida a sessão Supabase e a allowlist do servidor antes de consultar e agregar a demanda.
 
-POST exige confirmado=true; Asad/Assad são agrupados por mapa explícito. A quota diária usa transação/ETag; GET calcula contagens no Azure. Inclui contrato v1, mock local para B, divisão de issues, CI e Bicep/manual de deploy. Frontend e entregas de C não foram implementados.
+Inclui contrato v1, mock para desenvolvimento de B, 24 testes unitários, CI e Bicep/manual de operação. Os cinco patches foram aplicados com `git am` sobre o clone real em `041de4a7`; os commits do snapshot não foram publicados. O SDK `@azure/functions` foi atualizado de 4.7.0 para 4.17.1, no mesmo major, para eliminar os avisos do backend. O lockfile foi revisado e o CI agora exige `npm ci`.
 
-Validação realizada: 24 testes unitários (validação, auth, ranking, replay, concorrência e falhas) e checagem sintática passaram. Sem alterações em arquivos preexistentes.
-Limitações: SDK/host Azure não executados; registry npm inacessível e lock pendente. Frontend build bloqueado por instalação EPERM/next ausente. Workflow e Bicep ainda não executados. Azure não provisionado, custo monetário depende de região/oferta; aplicação pública e persistência real não comprovadas.
+## Verificações executadas
 
-Abrir esta PR para main somente após aplicar os patches numa branch real. Estado recomendado inicial: draft até instalar dependências, fixar lock e obter CI verde; depois marcar ready para revisão de código. A comprovação em Azure permanece requisito de entrega acadêmica.
-Não fazer merge automático. Issues A/B/C precisam ser criadas conforme docs/CLOUD_ISSUES.md; nenhum número foi inventado.
+- Backend: `npm ci --ignore-scripts`, 24/24 testes unitários e checagem sintática aprovados; audit com zero vulnerabilidades. Os testes de armazenamento/autenticação usam doubles.
+- SDK/host local real: Core Tools 4.16.1, runtime 4.1054.250.26428 e Node 22.20.0 indexaram `registrarInteresse` e `consultarDemanda`; GET sem token retornou 401 e POST desabilitado retornou 503. Storage e credenciais Azure não foram utilizados.
+- Mock HTTP em memória: criação 201, replay 200, conflito 409, validação 400, autenticação 401/403, aliases/variante, ranking, CORS/preflight 204, corpo 413 e rota 404 aprovados.
+- Frontend existente: `npm ci`, `npm run build` e `npm run lint` aprovados, sem credenciais reais. O build avisa sobre variáveis Supabase ausentes.
+- Bicep 0.49.2: compilação aprovada, sem provisionamento.
+- CI remoto: [execução 43749302397](https://github.com/Guilhermegg-06/ELDEPARFUM/actions/runs/43749302397) no commit `cd008bb1` aprovada nos jobs `backend`, `frontend` e `infrastructure`. Os checks dos commits posteriores são acompanhados na PR #5; código liberado para revisão após sua aprovação, com Azure pendente.
 
-Tentativa adicional de smoke HTTP local: conexão 127.0.0.1:7072 bloqueada por EACCES; não contabilizada como teste aprovado.
+## Limitações e continuidade
+
+Azure não foi provisionado. API pública, persistência Table real, reinício da Function, autenticação Supabase real e CORS da implantação continuam pendentes de assinatura e autorização específica. SDK/host local e mock não comprovam integração Azure.
+
+O audit do frontend aponta 20 vulnerabilidades preexistentes (1 crítica, 14 altas, 4 moderadas, 1 baixa), incluindo Next 16.1.6. Suas dependências não foram alteradas nesta Frente A; a correção precisa de trabalho separado.
+
+Relaciona-se a [A #2](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/2), [B #3](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/3) e [C #4](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/4). A permanece aberta até comprovar o aceite Azure. B implementará busca/radar em PR própria; C produzirá matriz, evidências, relatório e apresentação. Essas frentes não foram implementadas aqui.
+
+Sem merge automático. Detalhes e próximos passos em `docs/AGENT_HANDOFF.md` e `docs/AZURE_DEPLOY.md`.

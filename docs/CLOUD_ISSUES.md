@@ -1,7 +1,8 @@
-# Issues preparadas — criação remota bloqueada (403)
-Criar três issues sem atribuir usernames presumidos. Estados abaixo são planejados, não issues já publicadas.
+# Issues publicadas — Cloud Demand
+As três issues foram criadas em 15/11/2026, após conferir duplicatas, sem atribuir usernames presumidos. A publicação usou a credencial Git local autorizada porque o conector retornou 403 para escrita. PR da Frente A: [#5](https://github.com/Guilhermegg-06/ELDEPARFUM/pull/5).
 
 ## A — Backend, contratos e Azure (Em andamento)
+Issue: [#2](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/2). Implementação, testes locais e CI de código aprovados; aceite Azure continua pendente.
 Responsável: Guilherme.
 - Implementar POST explícito, normalização e idempotência; GET protegido e ranking calculado na nuvem.
 - Integrar Table Storage, testes unitários, workflow CI, configuração de deploy e custo.
@@ -11,6 +12,7 @@ Responsável: Guilherme.
 Arquivos reservados: ver handoff. Não fechar issue apenas com mock local.
 
 ## B — Busca e radar administrativo (Ready após G1)
+Issue: [#3](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/3). Contrato/mock disponíveis para iniciar; interface não implementada por A.
 Responsável: integrante 2 (definir conta GitHub).
 - Reutilizar catálogo, diferenciar vazio real de filtros/erros/loading/respostas antigas.
 - Confirmação explícita; botão com loading/sucesso/erro; chave UUID mantida em retries.
@@ -20,6 +22,7 @@ Responsável: integrante 2 (definir conta GitHub).
 Dependência: CONTRATO_API v1. Não depende de provisionamento para desenvolver.
 
 ## C — Integração, evidências e entrega acadêmica (Ready para planejar; E2E bloqueado)
+Issue: [#4](https://github.com/Guilhermegg-06/ELDEPARFUM/issues/4). Entregas de C não implementadas por A.
 Responsável: integrante 3 (definir conta GitHub).
 C deve elaborar/executar a matriz; A apenas informa os pontos necessários:
 - Demonstrar entrada inválida não persistida e ausência de POST ao somente pesquisar.

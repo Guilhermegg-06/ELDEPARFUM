@@ -1,22 +1,24 @@
 # Azure — operação da Frente A
-Estado em 15/11/2026: código testado com doubles locais; Azure NÃO provisionado nem verificado. Nenhuma despesa autorizada. O contrato/mock pode liberar B; não satisfaz R1–R5 sem implantação real.
+Estado em 15/11/2026: 24 testes unitários, smoke HTTP do mock, SDK/host local real, build/lint e compilação Bicep aprovados; CI de código aprovado. Azure NÃO provisionado nem verificado. Nenhuma despesa autorizada. O contrato/mock pode liberar B; não satisfaz R1–R5 sem implantação real. Resultados e links em AGENT_HANDOFF.md.
 
 ## Arquitetura e motivo
 Frontend Next existente (hospedagem atual preservada) -> HTTPS -> Azure Functions v4 / Node 22 -> Azure Table Storage.
 GET administrativo valida token no Supabase Auth existente antes de ler a tabela. POST valida/normaliza; GET agrega/ordena no processo Azure Functions. Supabase não armazena interesses.
 Functions é PaaS/FaaS; Storage é serviço gerenciado PaaS. Sem VM e sem migração do catálogo.
 Windows Consumption Y1 mantém Node 22 e ZIP local simples. StorageV2 LRS aloja Table + arquivos/runtime. A arquitetura preferida foi mantida; Windows é apenas escolha de hospedagem.
-Infra preparada em infra/cloud-demand/main.bicep, não executada. App Insights não provisionado; usar logs do host/stream e métricas básicas para a primeira demonstração.
+Infra preparada em infra/cloud-demand/main.bicep e compilada com Bicep 0.49.2, sem provisionamento. App Insights não provisionado; usar logs do host/stream e métricas básicas para a primeira demonstração.
 
 ## Desenvolvimento
 Node 22. Na pasta cloud-demand:
+- npm ci — obrigatório com o lockfile versionado; no PowerShell com scripts desabilitados usar npm.cmd.
 - node --test test/*.test.mjs
 - node scripts/check.mjs
 - node scripts/mock.mjs — somente contrato local, memória; nunca importar o mock na função.
 Para runtime real local: instalar dependências, Azure Functions Core Tools v4 e Azurite com suporte a Tables; copiar local.settings.example.json para local.settings.json, criar tabela DemandInterests no emulador e definir DEMAND_ENABLED=true; npm start.
 Mock: token Bearer mock-admin permite GET; mock-user retorna 403; demais 401. Use fetch específico no desenvolvimento, sem alterar o login real para aceitar estes tokens. Não enviar credenciais reais ao mock.
-Limitação atual: registry.npmjs.org retornou ENOTFOUND; sem dependências Azure instaladas e sem lockfile gerado. Em ambiente com rede, executar npm install --ignore-scripts, revisar npm audit, commitar package-lock.json, então npm ci e validar import('./src/functions.mjs'). Deploy deve esperar essa revisão.
-Build do frontend não validado: npm ci --offline falhou EPERM ao criar node_modules/@unrs. Não alterar dependências do catálogo para contornar esse ambiente.
+Dependências instaladas e lockfile revisado: @azure/functions 4.17.1 e @azure/data-tables 13.3.0; audit do backend sem vulnerabilidades. O SDK Functions foi atualizado dentro do mesmo major para resolver os avisos da versão 4.7.0. CI exige npm ci; não há fallback para instalação sem lock.
+Core Tools 4.16.1 / runtime 4.1054.250.26428 indexaram as duas Functions no host local; GET sem token retornou 401 e POST desabilitado retornou 503, sem storage nem auth remotos. Isso não valida persistência ou implantação Azure.
+Build e lint do frontend aprovados sem credenciais reais; avisos de ambiente Supabase ausente eram esperados. O audit do lockfile original do frontend tem 20 vulnerabilidades preexistentes, incluindo uma crítica; registradas separadamente no handoff, sem alterar dependências do catálogo.
 
 ## Gate de implantação
 1. Confirmar assinatura acadêmica/institucional autorizada, saldo/crédito, região e permissão de criação. Não assinar plano particular.
