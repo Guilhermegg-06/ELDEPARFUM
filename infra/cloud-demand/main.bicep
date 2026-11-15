@@ -40,8 +40,8 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   tags: tags
   kind: 'StorageV2'
   sku: {
-      name: 'Standard_LRS'
-    }
+    name: 'Standard_LRS'
+  }
   properties: {
     minimumTlsVersion: 'TLS1_2'
     supportsHttpsTrafficOnly: true
@@ -65,20 +65,20 @@ resource contentShare 'Microsoft.Storage/storageAccounts/fileServices/shares@202
   parent: files
   name: 'function-content'
   properties: {
-      shareQuota: 1
-    }
+    shareQuota: 1
+  }
 }
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${appName}-plan'
   location: location
   tags: tags
   sku: {
-      name: 'Y1'
-      tier: 'Dynamic'
-    }
+    name: 'Y1'
+    tier: 'Dynamic'
+  }
   properties: {
-      reserved: false
-    }
+    reserved: false
+  }
 }
 var storageConnection = 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
 
@@ -97,74 +97,74 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
       use32BitWorkerProcess: false
       http20Enabled: true
       cors: {
-      allowedOrigins: allowedOrigins
-      supportCredentials: false
-    }
+        allowedOrigins: allowedOrigins
+        supportCredentials: false
+      }
       appSettings: [
         {
-      name: 'AzureWebJobsStorage'
-      value: storageConnection
-    }
+          name: 'AzureWebJobsStorage'
+          value: storageConnection
+        }
         {
-      name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-      value: storageConnection
-    }
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: storageConnection
+        }
         {
-      name: 'WEBSITE_CONTENTSHARE'
-      value: contentShare.name
-    }
+          name: 'WEBSITE_CONTENTSHARE'
+          value: contentShare.name
+        }
         {
-      name: 'FUNCTIONS_EXTENSION_VERSION'
-      value: '~4'
-    }
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
         {
-      name: 'FUNCTIONS_WORKER_RUNTIME'
-      value: 'node'
-    }
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'node'
+        }
         {
-      name: 'WEBSITE_NODE_DEFAULT_VERSION'
-      value: '~22'
-    }
+          name: 'WEBSITE_NODE_DEFAULT_VERSION'
+          value: '~22'
+        }
         {
-      name: 'WEBSITE_RUN_FROM_PACKAGE'
-      value: '1'
-    }
+          name: 'WEBSITE_RUN_FROM_PACKAGE'
+          value: '1'
+        }
         {
-      name: 'FUNCTIONS_REQUEST_BODY_SIZE_LIMIT'
-      value: '2048'
-    }
+          name: 'FUNCTIONS_REQUEST_BODY_SIZE_LIMIT'
+          value: '2048'
+        }
         {
-      name: 'WEBSITE_MAX_DYNAMIC_APPLICATION_SCALE_OUT'
-      value: '1'
-    }
+          name: 'WEBSITE_MAX_DYNAMIC_APPLICATION_SCALE_OUT'
+          value: '1'
+        }
         {
-      name: 'DEMAND_STORAGE_CONNECTION_STRING'
-      value: storageConnection
-    }
+          name: 'DEMAND_STORAGE_CONNECTION_STRING'
+          value: storageConnection
+        }
         {
-      name: 'DEMAND_TABLE_NAME'
-      value: interests.name
-    }
+          name: 'DEMAND_TABLE_NAME'
+          value: interests.name
+        }
         {
-      name: 'DEMAND_DAILY_LIMIT'
-      value: string(dailyLimit)
-    }
+          name: 'DEMAND_DAILY_LIMIT'
+          value: string(dailyLimit)
+        }
         {
-      name: 'DEMAND_ENABLED'
-      value: 'false'
-    }
+          name: 'DEMAND_ENABLED'
+          value: 'false'
+        }
         {
-      name: 'SUPABASE_URL'
-      value: supabaseUrl
-    }
+          name: 'SUPABASE_URL'
+          value: supabaseUrl
+        }
         {
-      name: 'SUPABASE_PUBLISHABLE_KEY'
-      value: supabasePublishableKey
-    }
+          name: 'SUPABASE_PUBLISHABLE_KEY'
+          value: supabasePublishableKey
+        }
         {
-      name: 'DEMAND_ADMIN_USER_IDS'
-      value: adminUserIds
-    }
+          name: 'DEMAND_ADMIN_USER_IDS'
+          value: adminUserIds
+        }
       ]
     }
   }

@@ -13,11 +13,19 @@ B — integrante 2: app/catalogo/page.tsx, componentes de busca/estado vazio, ap
 C — integrante 3: docs/qa/**, evidências, matriz de integração/aceitação, relatório e demonstração. Não implementada por A.
 A não altera telas, catálogo, carrinho, tabelas existentes ou autenticação compartilhada.
 ## Estado / bloqueios
-G0 concluído; G1 documentado; G2/A em implementação local.
+G0/G1 concluídos. G2/A implementado localmente: handlers, adaptador Table, autenticação, normalização, ranking, quota/idempotência, mock, testes e infraestrutura. G3/G4 pendentes.
 GitHub leitura disponível, mas create_branch e create_issue retornaram 403 "Resource not accessible by integration". Sem issue ou PR remota criada.
 Clone git: "Could not resolve host: github.com". Snapshot local reconstruído pela conexão GitHub; histórico local NÃO é clone. Aplicar somente patches da feature sobre clone real para publicar.
 Azure CLI/Core Tools ausentes; assinatura e credenciais não disponibilizadas nesta sessão. Nenhum serviço criado; nenhum custo autorizado. Azure real e aplicação online NÃO verificados.
 ## Próximos passos
-A: testes, CI, instruções de deploy e pacote de patches revisável.
+A: desbloquear dependências/lock e publicação, executar CI e compilação Bicep; obter assinatura/autorização e validar Azure real.
 B pode iniciar pelo contrato/mock; C pode preparar a matriz com as verificações em docs/CLOUD_ISSUES.md.
 Sem merge automático; branch de trabalho feat/cloud-demand-frente-a. G3/G4 dependem de Azure autorizado e PRs B/C.
+
+## Verificação final e commits locais
+24/24 testes unitários aprovados (Node 22.20.0), sintaxe aprovada. Table/Supabase simulados nos testes; SDK/host real NÃO executados. Workflow criado, não rodou no GitHub. Bicep preparado, compilação não executada (CLI ausente).
+Dependências Azure: npm ENOTFOUND registry.npmjs.org; sem package-lock. Frontend npm ci --offline: EPERM node_modules/@unrs; build: comando next indisponível. Navegador alternativo GitHub sem sessão autenticada.
+Commits: ce3eb57 (contrato), ada2753 (backend/testes), 58cb139 (CI/infra), mais commit final de handoff. Hashes pertencem ao snapshot local, não ao histórico remoto.
+Nenhum arquivo preexistente alterado. main remota preservada. docs/PR_CLOUD_DEMAND.md contém descrição pronta; docs/CLOUD_ISSUES.md contém três issues ainda NÃO publicadas.
+Publicação: aplicar apenas patches após tag cloud-demand-base num clone real, em branch nova. NÃO fazer force-push deste snapshot nem enviar commits de snapshot para main.
+Custo monetário pendente de oferta/região; estimativa de consumo e procedimento em AZURE_DEPLOY.md. Nenhum recurso ou serviço pago criado.
