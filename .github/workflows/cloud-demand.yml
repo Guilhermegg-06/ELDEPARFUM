@@ -21,20 +21,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: cloud-demand/package-lock.json
+      - name: Install locked runtime dependencies
+        run: npm ci
       - run: npm test
       - run: npm run check
-      # Local registry is unreachable. Commit reviewed lock before deployment.
-      - name: Install runtime dependencies
-        run: |
-          if test -f package-lock.json; then npm ci; else npm install --ignore-scripts; fi
       - name: Validate runtime imports
         run: node -e "import('./src/functions.mjs')"
-      - name: Preserve dependency lock for review
-        uses: actions/upload-artifact@v4
-        with:
-          name: cloud-demand-dependency-lock
-          path: cloud-demand/package-lock.json
-          retention-days: 7
   frontend:
     runs-on: ubuntu-latest
     steps:
