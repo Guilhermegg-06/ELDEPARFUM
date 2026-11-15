@@ -29,3 +29,5 @@ Commits: ce3eb57 (contrato), ada2753 (backend/testes), 58cb139 (CI/infra), mais 
 Nenhum arquivo preexistente alterado. main remota preservada. docs/PR_CLOUD_DEMAND.md contém descrição pronta; docs/CLOUD_ISSUES.md contém três issues ainda NÃO publicadas.
 Publicação: aplicar apenas patches após tag cloud-demand-base num clone real, em branch nova. NÃO fazer force-push deste snapshot nem enviar commits de snapshot para main.
 Custo monetário pendente de oferta/região; estimativa de consumo e procedimento em AZURE_DEPLOY.md. Nenhum recurso ou serviço pago criado.
+
+Smoke HTTP do mock: processo iniciou, mas conexão localhost:7072 foi bloqueada por EACCES neste ambiente. Mock entregue com sintaxe verificada; tráfego HTTP real local ainda não validado. Processo encerrado após a tentativa.

@@ -9,3 +9,5 @@ Limitações: SDK/host Azure não executados; registry npm inacessível e lock p
 
 Abrir esta PR para main somente após aplicar os patches numa branch real. Estado recomendado inicial: draft até instalar dependências, fixar lock e obter CI verde; depois marcar ready para revisão de código. A comprovação em Azure permanece requisito de entrega acadêmica.
 Não fazer merge automático. Issues A/B/C precisam ser criadas conforme docs/CLOUD_ISSUES.md; nenhum número foi inventado.
+
+Tentativa adicional de smoke HTTP local: conexão 127.0.0.1:7072 bloqueada por EACCES; não contabilizada como teste aprovado.
